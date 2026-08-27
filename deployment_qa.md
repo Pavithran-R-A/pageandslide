@@ -1,0 +1,15 @@
+# Vercel Preview Deployment and Hosted QA Record
+
+## Deployment context
+
+The Vercel team selected was `Pavithran's projects` (`team_FFtBNFMsQMOc92Oqv2wnrC6Y`). An existing project named `softbazzar` was identified (`prj_q3cMbX3jlTvZv92oXOCaH3HdtjqI`), which is distinct from the other listed projects and was used only for preview-target deployments. No custom domain was attached and no Vercel production deployment was requested or created.
+
+## Pre-deployment audit
+
+The source checkpoint at the start of the task was `f7fc45f7`; the only untracked file was the task QA checklist. TypeScript passed. Vitest passed with 5 test files and 15 tests. The Vite production build passed. Playwright passed with 6 desktop/mobile smoke tests. The central catalogue is `client/src/data/services.ts`; derived totals are implemented in `client/src/lib/pricing.ts`; and intentionally safe placeholder contact settings are in `client/src/config/contact.ts`.
+
+## Deployment findings to date
+
+The first preview deployment, `dpl_4tc7JtGSzeHQ2ksSxHPyAL11VovW`, failed during `pnpm install --frozen-lockfile` because `patches/wouter@3.7.1.patch` was omitted from the manually supplied file set. The second deployment, `dpl_2dtDHqr8SYU1oZA54JtkDorrzUkR`, completed installation but failed because `client/src/components/ui/button.tsx` was omitted, and it exposed unresolved `%VITE_ANALYTICS_*%` placeholders in HTML. The third deployment, `dpl_fGL92oUuC36HofJpqxqfyxh5u3CN`, failed because `client/src/components/ui/card.tsx`, imported by the fallback page, was also omitted.
+
+The manifest generator has therefore been corrected to recursively include all `client/src` and `client/public` source files as well as root build configuration and lockfile patches. The unresolved optional analytics placeholder was removed because analytics is not configured for this Vercel preview. No visual design or product-flow changes were made.
