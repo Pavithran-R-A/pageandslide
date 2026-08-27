@@ -18,7 +18,7 @@ describe("OrderDetailsDialog", () => {
   beforeEach(() => { window.localStorage.clear(); window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify([{ serviceId: "presentations", tierId: "11-to-15", quantity: 1 }])); });
   afterEach(() => vi.useRealTimers());
 
-  it("validates required fields and retains the order locally before a placeholder channel choice", () => {
+  it("validates required fields and retains the order locally before exposing the configured WhatsApp link", () => {
     renderDialog();
     fireEvent.click(screen.getByRole("button", { name: /review order/i }));
     expect(screen.getByText("Enter your name.")).toBeInTheDocument();
@@ -28,8 +28,9 @@ describe("OrderDetailsDialog", () => {
     fireEvent.click(screen.getByRole("button", { name: /review order/i }));
     expect(screen.getByText("Ready to send")).toBeInTheDocument();
     expect(screen.getByText("₹311")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /Order on WhatsApp/i }));
-    expect(screen.getByRole("alert")).toHaveTextContent("needs configuration");
+    const whatsapp = screen.getByRole("link", { name: /Order on WhatsApp/i });
+    expect(whatsapp).toHaveAttribute("href", expect.stringMatching(/^https:\/\/wa\.me\/919025857269\?text=/));
+    expect(whatsapp.getAttribute("href")).toContain(encodeURIComponent("Name: Arun"));
   });
 
   it("rejects a past deadline and exposes deterministic minimum and length limits", () => {

@@ -1,5 +1,5 @@
-export const WHATSAPP_NUMBER = "91XXXXXXXXXX";
-export const TELEGRAM_USERNAME = "YOUR_USERNAME";
+export const WHATSAPP_NUMBER = "919025857269";
+export const TELEGRAM_USERNAME = "softbazzar";
 
 export function isConfiguredWhatsAppNumber(value: string): boolean {
   return /^[1-9]\d{7,14}$/.test(value) && !/[xX]/.test(value);

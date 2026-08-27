@@ -13,7 +13,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   page.on("response", (response) => { if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`); });
 
   await page.goto(hostedUrl!, { waitUntil: "networkidle" });
-  await expect(page).toHaveTitle("SoftBazzar | Student Presentation & Document Services");
+  await expect(page).toHaveTitle("SoftBazzar | PPT & Report Services for MCC Students");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
   await expect(page.getByText("FOR MCC STUDENTS", { exact: true })).toBeVisible();
@@ -142,11 +142,12 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(review).toContainText("Total₹672");
   const sameDayOrderReference = await review.locator(".reference-row strong").textContent();
   expect(sameDayOrderReference).toMatch(/^SB-\d{8}-[A-Z0-9]{4}$/);
-  await review.getByRole("button", { name: /Order on WhatsApp/i }).click();
-  await expect(review.getByRole("alert")).toContainText("needs configuration");
+  const whatsapp = review.getByRole("link", { name: /Order on WhatsApp/i });
+  const telegram = review.getByRole("link", { name: /Order on Telegram/i });
+  await expect(whatsapp).toHaveAttribute("href", /^https:\/\/wa\.me\/919025857269\?text=/);
+  await expect(telegram).toHaveAttribute("href", /^https:\/\/t\.me\/softbazzar\?text=/);
+  await expect(whatsapp).toHaveAttribute("rel", "noopener noreferrer");
   await expect(review.locator(".reference-row strong")).toHaveText(sameDayOrderReference!);
-  await review.getByRole("button", { name: /Order on Telegram/i }).click();
-  await expect(review.getByRole("alert")).toContainText("needs configuration");
   const checkoutKeys = await page.evaluate(() => Object.keys(window.localStorage));
   expect(checkoutKeys.filter((key) => key !== "softbazzar_cart_v1")).toEqual([]);
   await review.getByLabel("Close order details").click();

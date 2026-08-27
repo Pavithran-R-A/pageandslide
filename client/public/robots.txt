@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://softbazzar.example/sitemap.xml
+User-agent: OAI-SearchBot
+Allow: /
+
+Sitemap: https://softbazzar.vercel.app/sitemap.xml

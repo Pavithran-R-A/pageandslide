@@ -35,3 +35,13 @@
 - [x] Add focused Telegram-validation and add-on-copy test assertions.
 - [x] Run TypeScript, all Vitest tests, production build, local Playwright, and hosted Vercel Playwright QA.
 - [x] Commit and push only the preview branch, deploy one final preview, and record its actual Lighthouse scores.
+
+## Final SEO, AEO, and generative-search readiness
+
+- [x] Audit existing contact configuration, canonical metadata, crawl files, schema, social assets, and deployable references.
+- [x] Configure the supplied WhatsApp and Telegram public destinations and verify complete order deep links.
+- [x] Centralize the production canonical baseline and align canonical, social metadata, robots, sitemap, and structured data.
+- [x] Add truthful Organization, WebSite, and catalogue-derived Service/Offer structured data without invented local-business claims or reviews.
+- [x] Prepare a branded 1200×630 social image and concise answer-oriented copy without altering the approved design.
+- [x] Add focused coverage and run TypeScript, Vitest, production build, local Playwright, and hosted Preview QA.
+- [ ] Commit only to the preview branch, confirm the Preview remains non-indexable, and document launch-only search-platform steps.

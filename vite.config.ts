@@ -3,9 +3,21 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { defineConfig } from "vite";
+import { SITE_METADATA } from "./client/src/config/site";
+
+const metadataTokens: Readonly<Record<string, string>> = {
+  "{{SITE_TITLE}}": SITE_METADATA.title,
+  "{{SITE_DESCRIPTION}}": SITE_METADATA.description,
+  "{{SITE_CANONICAL_URL}}": SITE_METADATA.canonicalUrl,
+  "{{SITE_SOCIAL_IMAGE_URL}}": SITE_METADATA.socialImageUrl,
+};
+
+function applyMetadataTokens(html: string): string {
+  return Object.entries(metadataTokens).reduce((result, [token, value]) => result.replaceAll(token, value), html);
+}
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), jsxLocPlugin()],
+  plugins: [react(), tailwindcss(), jsxLocPlugin(), { name: "softbazzar-canonical-metadata", transformIndexHtml: applyMetadataTokens }],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),

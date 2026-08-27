@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("customer can add a service, review it, and receive the configuration-safe channel state", async ({ page }) => {
+test("customer can add a service, review it, and receive the configured WhatsApp order link", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
   await page.getByRole("button", { name: "Add" }).first().click();
@@ -13,6 +13,7 @@ test("customer can add a service, review it, and receive the configuration-safe 
   await page.getByLabel(/Priority/).check();
   await page.getByRole("button", { name: /Review order/i }).click();
   await expect(page.getByRole("heading", { name: /Ready to send/i })).toBeVisible();
-  await page.getByRole("button", { name: /Order on WhatsApp/i }).click();
-  await expect(page.getByRole("alert")).toContainText("needs configuration");
+  const whatsapp = page.getByRole("link", { name: /Order on WhatsApp/i });
+  await expect(whatsapp).toHaveAttribute("href", /^https:\/\/wa\.me\/919025857269\?text=/);
+  await expect(whatsapp).toHaveAttribute("target", "_blank");
 });
