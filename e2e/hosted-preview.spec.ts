@@ -82,7 +82,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(cart.getByLabel("Quantity 2")).toBeVisible();
   await expect(cart).toContainText("₹498");
   await cart.getByLabel("Decrease quantity of Presentations").click();
-  await expect(cart.getByLabel("Quantity 1")).toBeVisible();
+  await expect(cart.locator("article.cart-line").filter({ hasText: "Presentations" }).getByLabel("Quantity 1")).toBeVisible();
   await page.keyboard.press("Escape");
 
   await page.reload({ waitUntil: "networkidle" });
@@ -113,20 +113,39 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(review).toContainText("25% delivery surcharge₹112");
   await expect(review).toContainText("Total₹560");
   await page.screenshot({ path: testInfo.outputPath("desktop-order-review.png"), fullPage: false });
+  await review.getByRole("button", { name: /Edit details/i }).click();
+  await details.getByLabel(/Same day/).check();
+  await details.getByRole("button", { name: /Review order/i }).click();
+  await expect(review).toContainText("50% delivery surcharge₹224");
+  await expect(review).toContainText("Total₹672");
+  const sameDayOrderReference = await review.locator(".reference-row strong").textContent();
+  expect(sameDayOrderReference).toMatch(/^SB-\d{8}-[A-Z0-9]{4}$/);
   await review.getByRole("button", { name: /Order on WhatsApp/i }).click();
   await expect(review.getByRole("alert")).toContainText("needs configuration");
-  await expect(review.locator(".reference-row strong")).toHaveText(orderReference!);
+  await expect(review.locator(".reference-row strong")).toHaveText(sameDayOrderReference!);
   await review.getByRole("button", { name: /Order on Telegram/i }).click();
   await expect(review.getByRole("alert")).toContainText("needs configuration");
   const checkoutKeys = await page.evaluate(() => Object.keys(window.localStorage));
   expect(checkoutKeys.filter((key) => key !== "softbazzar_cart_v1")).toEqual([]);
   await review.getByLabel("Close order details").click();
+  await cartToggle.click();
+  await cart.getByRole("button", { name: /Review order/i }).click();
+  await expect(details.getByLabel(/^Name/)).toHaveValue("");
+  await expect(details.getByLabel(/^Topic/)).toHaveValue("");
+  await expect(details.getByLabel(/^Deadline/)).toHaveValue("");
+  await expect(details.getByText("0/500")).toBeVisible();
+  await details.getByLabel("Close order details").click();
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: "networkidle" });
-  await expect(page.locator(".mobile-cart-bar")).toBeVisible();
+  const mobileCartBar = page.locator(".mobile-cart-bar");
+  await expect(mobileCartBar).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("mobile-cart-bar.png"), fullPage: false });
-  await cartToggle.click();
+  await mobileCartBar.click();
+  await expect(cart).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(mobileCartBar).toBeFocused();
+  await mobileCartBar.click();
   await expect(cart).toBeVisible();
   await cart.getByRole("button", { name: "Remove" }).first().click();
   await cart.getByRole("button", { name: "Remove" }).first().click();
@@ -140,7 +159,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await page.screenshot({ path: testInfo.outputPath("mobile-root.png"), fullPage: true });
 
   const origin = new URL(hostedUrl!).origin;
-  await page.goto(`${origin}/404`, { waitUntil: "networkidle" });
+  await page.goto(`${origin}/404`, { waitUntil: "domcontentloaded", timeout: 15_000 });
   await expect(page.getByRole("heading", { name: "Page Not Found" })).toBeVisible();
   expect(consoleErrors).toEqual([]);
   expect(failedResponses).toEqual([]);

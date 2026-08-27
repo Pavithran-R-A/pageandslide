@@ -7,15 +7,20 @@ import { Minus, Plus, X } from "lucide-react";
 type CartDialogProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onCloseFocus?: () => void;
   onReview: () => void;
 }>;
 
-export function CartDialog({ open, onOpenChange, onReview }: CartDialogProps) {
+export function CartDialog({ open, onOpenChange, onCloseFocus, onReview }: CartDialogProps) {
   const { items, increaseItem, decreaseItem, removeItem } = useCart();
   const lines = resolveCartItems(items);
   const subtotal = calculateSubtotal(items);
 
   function restoreTriggerFocus(): void {
+    if (onCloseFocus) {
+      onCloseFocus();
+      return;
+    }
     window.requestAnimationFrame(() => document.querySelector<HTMLButtonElement>(".cart-toggle")?.focus());
   }
 

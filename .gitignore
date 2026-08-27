@@ -114,3 +114,7 @@ client/public/__manus__/version.json
 
 # Generated Vercel manual-deployment payload
 vercel-deploy-input.json
+
+# Generated hosted QA outputs
+lighthouse-*.json
+test-results-hosted/
