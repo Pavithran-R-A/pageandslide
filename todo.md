@@ -33,5 +33,5 @@
 - [x] Replace add-on wording with the approved subtle rate annotations while keeping both tiers non-addable.
 - [x] Tighten Telegram username validation to reject numeric first characters without changing the permitted length or remaining character set.
 - [x] Add focused Telegram-validation and add-on-copy test assertions.
-- [ ] Run TypeScript, all Vitest tests, production build, local Playwright, and hosted Vercel Playwright QA.
-- [ ] Commit and push only the preview branch, deploy one final preview, and record its actual Lighthouse scores.
+- [x] Run TypeScript, all Vitest tests, production build, local Playwright, and hosted Vercel Playwright QA.
+- [x] Commit and push only the preview branch, deploy one final preview, and record its actual Lighthouse scores.
