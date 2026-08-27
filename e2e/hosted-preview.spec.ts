@@ -19,6 +19,34 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(page.getByText("FOR MCC STUDENTS", { exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
+  const searchReadiness = await page.evaluate(async () => {
+    const structuredData = document.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
+    const [robots, sitemap] = await Promise.all([fetch("/robots.txt"), fetch("/sitemap.xml")]);
+    return {
+      canonicalCount: document.querySelectorAll('link[rel="canonical"]').length,
+      canonical: document.querySelector('link[rel="canonical"]')?.getAttribute("href"),
+      ogUrl: document.querySelector('meta[property="og:url"]')?.getAttribute("content"),
+      socialImage: document.querySelector('meta[property="og:image"]')?.getAttribute("content"),
+      twitterCard: document.querySelector('meta[name="twitter:card"]')?.getAttribute("content"),
+      structuredData: structuredData?.textContent ? JSON.parse(structuredData.textContent) : null,
+      robotsStatus: robots.status,
+      robotsText: await robots.text(),
+      sitemapStatus: sitemap.status,
+      sitemapText: await sitemap.text(),
+      pageMarkup: document.documentElement.innerHTML,
+    };
+  });
+  expect(searchReadiness.canonicalCount).toBe(1);
+  expect(searchReadiness.canonical).toBe("https://softbazzar.vercel.app/");
+  expect(searchReadiness.ogUrl).toBe("https://softbazzar.vercel.app/");
+  expect(searchReadiness.socialImage).toBe("https://softbazzar.vercel.app/softbazzar-social.png");
+  expect(searchReadiness.twitterCard).toBe("summary_large_image");
+  expect(searchReadiness.structuredData).toMatchObject({ "@context": "https://schema.org" });
+  expect(searchReadiness.robotsStatus).toBe(200);
+  expect(searchReadiness.robotsText).toContain("User-agent: OAI-SearchBot\nAllow: /");
+  expect(searchReadiness.sitemapStatus).toBe(200);
+  expect(searchReadiness.sitemapText).toContain("<loc>https://softbazzar.vercel.app/</loc>");
+  expect(searchReadiness.pageMarkup).not.toContain("softbazzar.example");
   await page.screenshot({ path: testInfo.outputPath("desktop-root.png"), fullPage: true });
 
   for (const width of requestedWidths) {
