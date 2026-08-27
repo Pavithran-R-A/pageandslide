@@ -52,7 +52,12 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   const additionalPage = page.locator(".service-entry").filter({ has: page.getByRole("heading", { name: "Assignment support" }) }).locator(".tier-row").filter({ hasText: "Additional page" });
   await expect(additionalSlide.getByRole("button", { name: "Add" })).toHaveCount(0);
   await expect(additionalPage.getByRole("button", { name: "Add" })).toHaveCount(0);
-  await expect(additionalSlide).toContainText("Base service required");
+  await expect(additionalSlide).toContainText("₹15 each");
+  await expect(additionalSlide).toContainText("above package");
+  await expect(additionalSlide).toContainText("Add-on rate");
+  await expect(additionalPage).toContainText("₹8 each");
+  await expect(additionalPage).toContainText("above package");
+  await expect(additionalPage).toContainText("Add-on rate");
   const presentationTier = presentation.getByRole("button", { name: "Add" }).nth(2);
   const cartToggle = page.getByRole("button", { name: /Open cart/i });
 
