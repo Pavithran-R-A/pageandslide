@@ -12,7 +12,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   page.on("pageerror", (error) => consoleErrors.push(error.message));
   page.on("response", (response) => { if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`); });
 
-  await page.goto(hostedUrl!, { waitUntil: "networkidle" });
+  await page.goto(hostedUrl!, { waitUntil: "domcontentloaded" });
   await expect(page).toHaveTitle("SoftBazzar | College work, professionally presented");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
@@ -22,18 +22,18 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   const origin = new URL(hostedUrl!).origin;
   const publicRoutes = ["/presentations", "/assignment-support", "/project-reports", "/notes", "/resumes", "/terms", "/privacy", "/refunds", "/delivery-revisions", "/academic-integrity", "/contact", "/accessibility"];
   for (const route of publicRoutes) {
-    await page.goto(`${origin}${route}`, { waitUntil: "networkidle" });
+    await page.goto(`${origin}${route}`, { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://softbazzar.vercel.app${route}`);
     const routeBodyText = await page.locator("body").textContent();
     expect(routeBodyText).not.toMatch(/MCC|Madras Christian College|softbazzar\.example|YOUR_USERNAME|91XXXXXXXXXX/i);
   }
-  await page.goto(`${origin}/presentations`, { waitUntil: "networkidle" });
+  await page.goto(`${origin}/presentations`, { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { name: /Presentations that make the point clearly/i })).toBeVisible();
   await page.getByRole("button", { name: "Add" }).first().click();
   await expect(page.getByRole("button", { name: /Open cart, 1 items/i })).toBeVisible();
   await page.evaluate(() => window.localStorage.removeItem("softbazzar_cart_v1"));
-  await page.goto(hostedUrl!, { waitUntil: "networkidle" });
+  await page.goto(hostedUrl!, { waitUntil: "domcontentloaded" });
   const searchReadiness = await page.evaluate(async () => {
     const structuredData = document.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
     const [robots, sitemap] = await Promise.all([fetch("/robots.txt"), fetch("/sitemap.xml")]);
@@ -66,7 +66,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
 
   for (const width of requestedWidths) {
     await page.setViewportSize({ width, height: 900 });
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
     await expect(page.locator(".catalogue-section")).toBeVisible();
     await expect(page.locator(".process-section")).toBeVisible();
@@ -76,7 +76,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   }
 
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   const header = page.locator("header.site-header");
   await page.evaluate(() => window.scrollTo(0, 900));
   expect((await header.boundingBox())?.y).toBeLessThanOrEqual(1);
@@ -139,7 +139,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(cart.locator("article.cart-line").filter({ hasText: "Presentations" }).getByLabel("Quantity 1")).toBeVisible();
   await page.keyboard.press("Escape");
 
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.getByRole("button", { name: /Open cart, 2 items/i })).toBeVisible();
   const storedKeys = await page.evaluate(() => Object.keys(window.localStorage));
   expect(storedKeys).toContain("softbazzar_cart_v1");
@@ -203,7 +203,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await details.getByLabel("Close order details").click();
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   const mobileCartBar = page.locator(".mobile-cart-bar");
   await expect(mobileCartBar).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("mobile-cart-bar.png"), fullPage: false });
@@ -219,7 +219,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(cart.getByRole("button", { name: /Review order/i })).toHaveCount(0);
   await page.keyboard.press("Escape");
   await page.evaluate(() => window.localStorage.setItem("softbazzar_cart_v1", "{malformed"));
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "domcontentloaded" });
   await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
   await expect(page.locator("body")).not.toContainText("NaN");
   await page.screenshot({ path: testInfo.outputPath("mobile-root.png"), fullPage: true });
