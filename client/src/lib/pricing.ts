@@ -1,14 +1,38 @@
-/** College Press: transparent, independently testable pricing and defensive cart resolution. */
-import { findServiceTier } from "@/data/services";
+import { findPurchasableServiceTier } from "@/data/services";
+
 export type CartItem = Readonly<{ serviceId: string; tierId: string; quantity: number }>;
 export type ResolvedCartLine = Readonly<{ key: string; serviceId: string; tierId: string; serviceName: string; tierLabel: string; unitPrice: number; quantity: number; lineTotal: number }>;
 export type DeliverySpeed = "standard" | "priority" | "same-day";
 export type DeliveryOption = Readonly<{ id: DeliverySpeed; label: string; note: string; rate: number }>;
-export const DELIVERY_OPTIONS: readonly DeliveryOption[] = [{ id: "standard", label: "Standard", note: "Regular price", rate: 0 }, { id: "priority", label: "Priority", note: "Within 24 hours · +25%", rate: 0.25 }, { id: "same-day", label: "Same day", note: "Under 12 hours · +50%", rate: 0.5 }];
+
+export const DELIVERY_OPTIONS: readonly DeliveryOption[] = [
+  { id: "standard", label: "Standard", note: "Regular price", rate: 0 },
+  { id: "priority", label: "Priority", note: "Within 24 hours · +25%", rate: 0.25 },
+  { id: "same-day", label: "Same day", note: "Under 12 hours · +50%", rate: 0.5 },
+];
+
 export type OrderTotals = Readonly<{ subtotal: number; deliveryRate: number; deliveryFee: number; total: number; validDelivery: DeliverySpeed }>;
-export function formatRupees(amount: number): string { const safeAmount = Number.isFinite(amount) && amount >= 0 ? Math.round(amount) : 0; return `₹${new Intl.NumberFormat("en-IN").format(safeAmount)}`; }
-export function isValidCartItem(value: unknown): value is CartItem { if (!value || typeof value !== "object") return false; const candidate = value as Record<string, unknown>; return typeof candidate.serviceId === "string" && typeof candidate.tierId === "string" && typeof candidate.quantity === "number" && Number.isInteger(candidate.quantity) && candidate.quantity >= 1 && findServiceTier(candidate.serviceId, candidate.tierId) !== null; }
-export function resolveCartItems(items: readonly CartItem[]): readonly ResolvedCartLine[] { return items.flatMap((item) => { if (!isValidCartItem(item)) return []; const matched = findServiceTier(item.serviceId, item.tierId); if (!matched) return []; return [{ key: `${item.serviceId}:${item.tierId}`, serviceId: item.serviceId, tierId: item.tierId, serviceName: matched.service.name, tierLabel: matched.tier.label, unitPrice: matched.tier.price, quantity: item.quantity, lineTotal: matched.tier.price * item.quantity }]; }); }
+
+export function formatRupees(amount: number): string {
+  const safeAmount = Number.isFinite(amount) && amount >= 0 ? Math.round(amount) : 0;
+  return `₹${new Intl.NumberFormat("en-IN").format(safeAmount)}`;
+}
+
+export function isValidCartItem(value: unknown): value is CartItem {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate.serviceId === "string" && typeof candidate.tierId === "string" && typeof candidate.quantity === "number" && Number.isInteger(candidate.quantity) && candidate.quantity >= 1 && findPurchasableServiceTier(candidate.serviceId, candidate.tierId) !== null;
+}
+
+export function resolveCartItems(items: readonly CartItem[]): readonly ResolvedCartLine[] {
+  return items.flatMap((item) => {
+    if (!isValidCartItem(item)) return [];
+    const matched = findPurchasableServiceTier(item.serviceId, item.tierId);
+    if (!matched) return [];
+    return [{ key: `${item.serviceId}:${item.tierId}`, serviceId: item.serviceId, tierId: item.tierId, serviceName: matched.service.name, tierLabel: matched.tier.label, unitPrice: matched.tier.price, quantity: item.quantity, lineTotal: matched.tier.price * item.quantity }];
+  });
+}
+
 export function calculateSubtotal(items: readonly CartItem[]): number { return resolveCartItems(items).reduce((sum, line) => sum + line.lineTotal, 0); }
 export function getDeliveryOption(value: unknown): DeliveryOption | null { return DELIVERY_OPTIONS.find((option) => option.id === value) ?? null; }
 export function calculateOrderTotals(items: readonly CartItem[], delivery: unknown): OrderTotals { const subtotal = calculateSubtotal(items); const option = getDeliveryOption(delivery) ?? DELIVERY_OPTIONS[0]; const deliveryFee = Math.round(subtotal * option.rate); return { subtotal, deliveryRate: option.rate, deliveryFee, total: subtotal + deliveryFee, validDelivery: option.id }; }

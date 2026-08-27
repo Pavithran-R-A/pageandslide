@@ -13,3 +13,16 @@
 - [x] Test desktop and mobile layouts at 320, 360, 390, 430, 768, 1024, 1280, and 1440 pixels on the deployed URL.
 - [x] Test hosted accessibility, keyboard dialogs, focus handling, console, network requests, and reduced motion.
 - [x] Resolve genuine hosted defects only, re-run validation, and deliver the preview URL with an audit summary.
+
+## Verified production-gap remediation
+
+- [x] Audit the channel-opening, footer contact, add-on tier, deadline, input, and copy paths before edits.
+- [x] Verify unused scaffold files and debug artifacts through import/dependency checks before removal.
+- [x] Correct valid channel opening and footer direct-contact behavior without weakening safe placeholders.
+- [x] Make additional slide/page rows informational and non-addable.
+- [x] Add past-deadline validation, datetime minimum, and requested input length limits.
+- [x] Change only the hero eyebrow to `FOR MCC STUDENTS`, preserving the disclaimer and approved design.
+- [x] Remove only demonstrably unused template/debug artifacts and stale design comments.
+- [x] Add valid-contact, placeholder-contact, non-addable tier, deadline, and field-limit tests.
+- [x] Run TypeScript, Vitest, production build, local Playwright, and hosted preview regression QA.
+- [ ] Commit and push the existing preview branch, verify a new Vercel preview, and record final Lighthouse scores.

@@ -16,6 +16,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(page).toHaveTitle("SoftBazzar | Student Presentation & Document Services");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
+  await expect(page.getByText("FOR MCC STUDENTS", { exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("desktop-root.png"), fullPage: true });
@@ -47,6 +48,11 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
 
   const presentation = page.locator(".service-entry").filter({ has: page.getByRole("heading", { name: "Presentations" }) });
   const report = page.locator(".service-entry").filter({ has: page.getByRole("heading", { name: "Project reports" }) });
+  const additionalSlide = presentation.locator(".tier-row").filter({ hasText: "Additional slide" });
+  const additionalPage = page.locator(".service-entry").filter({ has: page.getByRole("heading", { name: "Assignment support" }) }).locator(".tier-row").filter({ hasText: "Additional page" });
+  await expect(additionalSlide.getByRole("button", { name: "Add" })).toHaveCount(0);
+  await expect(additionalPage.getByRole("button", { name: "Add" })).toHaveCount(0);
+  await expect(additionalSlide).toContainText("Base service required");
   const presentationTier = presentation.getByRole("button", { name: "Add" }).nth(2);
   const cartToggle = page.getByRole("button", { name: /Open cart/i });
 
@@ -98,8 +104,19 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(details.getByText("Enter your name.")).toBeVisible();
   await expect(details.getByText("Describe the topic or requirement.")).toBeVisible();
   await expect(details.getByText("Choose a deadline.")).toBeVisible();
+  await expect(details.getByLabel(/^Name/)).toHaveAttribute("maxlength", "80");
+  await expect(details.getByLabel(/^Topic/)).toHaveAttribute("maxlength", "200");
+  await expect(details.getByLabel(/Additional notes/i)).toHaveAttribute("maxlength", "500");
   await details.getByLabel(/^Name/).fill("Arun");
   await details.getByLabel(/^Topic/).fill("Consumer behaviour presentation");
+  const pastDeadline = await page.evaluate(() => {
+    const value = new Date(Date.now() - 60_000);
+    value.setSeconds(0, 0);
+    return new Date(value.getTime() - value.getTimezoneOffset() * 60_000).toISOString().slice(0, 16);
+  });
+  await details.getByLabel(/^Deadline/).fill(pastDeadline);
+  await details.getByRole("button", { name: /Review order/i }).click();
+  await expect(details.getByText("Choose a deadline in the future.")).toBeVisible();
   await details.getByLabel(/^Deadline/).fill("2026-08-29T18:00");
   await details.getByLabel(/Additional notes/i).fill("x".repeat(501));
   await expect(details.getByText("500/500")).toBeVisible();
