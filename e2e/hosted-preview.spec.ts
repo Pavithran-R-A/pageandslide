@@ -1,0 +1,147 @@
+import { expect, test } from "@playwright/test";
+
+const hostedUrl = process.env.HOSTED_URL;
+const requestedWidths = [320, 360, 390, 430, 768, 1024, 1280, 1440];
+
+test.skip(!hostedUrl, "HOSTED_URL is required for Vercel preview QA.");
+
+test("Vercel preview passes responsive, cart, checkout, accessibility, and safety QA", async ({ page }, testInfo) => {
+  const consoleErrors: string[] = [];
+  const failedResponses: string[] = [];
+  page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
+  page.on("pageerror", (error) => consoleErrors.push(error.message));
+  page.on("response", (response) => { if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`); });
+
+  await page.goto(hostedUrl!, { waitUntil: "networkidle" });
+  await expect(page).toHaveTitle("SoftBazzar | Student Presentation & Document Services");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+  await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("desktop-root.png"), fullPage: true });
+
+  for (const width of requestedWidths) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
+    await expect(page.locator(".catalogue-section")).toBeVisible();
+    await expect(page.locator(".process-section")).toBeVisible();
+    await expect(page.locator(".faq-section")).toBeVisible();
+    const dimensions = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+  }
+
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.reload({ waitUntil: "networkidle" });
+  const header = page.locator("header.site-header");
+  await page.evaluate(() => window.scrollTo(0, 900));
+  expect((await header.boundingBox())?.y).toBeLessThanOrEqual(1);
+  await page.evaluate(() => window.scrollTo(0, 0));
+
+  const firstFaq = page.locator(".faq-list details").first();
+  await firstFaq.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(firstFaq).toHaveAttribute("open", "");
+  await page.keyboard.press("Enter");
+  await expect(firstFaq).not.toHaveAttribute("open", "");
+
+  const presentation = page.locator(".service-entry").filter({ has: page.getByRole("heading", { name: "Presentations" }) });
+  const report = page.locator(".service-entry").filter({ has: page.getByRole("heading", { name: "Project reports" }) });
+  const presentationTier = presentation.getByRole("button", { name: "Add" }).nth(2);
+  const cartToggle = page.getByRole("button", { name: /Open cart/i });
+
+  await presentationTier.click();
+  await expect(page.getByRole("button", { name: /Open cart, 1 items/i })).toBeVisible();
+  await cartToggle.click();
+  const cart = page.getByRole("dialog", { name: "Order" });
+  await expect(cart).toBeVisible();
+  await expect(cart).toContainText("11–15 slides");
+  await expect(cart).toContainText("₹249");
+  await expect(cart.locator("article.cart-line")).toHaveCount(1);
+  await page.screenshot({ path: testInfo.outputPath("desktop-cart.png"), fullPage: false });
+  await page.keyboard.press("Escape");
+  await expect(cart).not.toBeVisible();
+  await expect(cartToggle).toBeFocused();
+
+  await presentationTier.click();
+  await expect(page.getByRole("button", { name: /Open cart, 2 items/i })).toBeVisible();
+  await cartToggle.click();
+  await expect(cart.locator("article.cart-line")).toHaveCount(1);
+  await expect(cart.getByLabel("Quantity 2")).toBeVisible();
+  await cart.getByLabel("Decrease quantity of Presentations").click();
+  await expect(cart.getByLabel("Quantity 1")).toBeVisible();
+  await expect(cart).toContainText("Subtotal₹249");
+  await page.keyboard.press("Escape");
+
+  await report.getByRole("button", { name: "Add" }).first().click();
+  await expect(page.getByRole("button", { name: /Open cart, 2 items/i })).toBeVisible();
+  await cartToggle.click();
+  await expect(cart.locator("article.cart-line")).toHaveCount(2);
+  await expect(cart).toContainText("Subtotal₹448");
+  await cart.getByLabel("Increase quantity of Presentations").click();
+  await expect(cart.getByLabel("Quantity 2")).toBeVisible();
+  await expect(cart).toContainText("₹498");
+  await cart.getByLabel("Decrease quantity of Presentations").click();
+  await expect(cart.getByLabel("Quantity 1")).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(page.getByRole("button", { name: /Open cart, 2 items/i })).toBeVisible();
+  const storedKeys = await page.evaluate(() => Object.keys(window.localStorage));
+  expect(storedKeys).toContain("softbazzar_cart_v1");
+
+  await cartToggle.click();
+  await cart.getByRole("button", { name: /Review order/i }).click();
+  const details = page.getByRole("dialog", { name: "Order details" });
+  await expect(details).toBeVisible();
+  await details.getByRole("button", { name: /Review order/i }).click();
+  await expect(details.getByText("Enter your name.")).toBeVisible();
+  await expect(details.getByText("Describe the topic or requirement.")).toBeVisible();
+  await expect(details.getByText("Choose a deadline.")).toBeVisible();
+  await details.getByLabel(/^Name/).fill("Arun");
+  await details.getByLabel(/^Topic/).fill("Consumer behaviour presentation");
+  await details.getByLabel(/^Deadline/).fill("2026-08-29T18:00");
+  await details.getByLabel(/Additional notes/i).fill("x".repeat(501));
+  await expect(details.getByText("500/500")).toBeVisible();
+  await details.getByLabel(/Priority/).check();
+  await details.getByRole("button", { name: /Review order/i }).click();
+  const review = page.getByRole("dialog", { name: "Ready to send" });
+  await expect(review).toBeVisible();
+  const orderReference = await review.locator(".reference-row strong").textContent();
+  expect(orderReference).toMatch(/^SB-\d{8}-[A-Z0-9]{4}$/);
+  await expect(review).toContainText("Subtotal₹448");
+  await expect(review).toContainText("25% delivery surcharge₹112");
+  await expect(review).toContainText("Total₹560");
+  await page.screenshot({ path: testInfo.outputPath("desktop-order-review.png"), fullPage: false });
+  await review.getByRole("button", { name: /Order on WhatsApp/i }).click();
+  await expect(review.getByRole("alert")).toContainText("needs configuration");
+  await expect(review.locator(".reference-row strong")).toHaveText(orderReference!);
+  await review.getByRole("button", { name: /Order on Telegram/i }).click();
+  await expect(review.getByRole("alert")).toContainText("needs configuration");
+  const checkoutKeys = await page.evaluate(() => Object.keys(window.localStorage));
+  expect(checkoutKeys.filter((key) => key !== "softbazzar_cart_v1")).toEqual([]);
+  await review.getByLabel("Close order details").click();
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(page.locator(".mobile-cart-bar")).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("mobile-cart-bar.png"), fullPage: false });
+  await cartToggle.click();
+  await expect(cart).toBeVisible();
+  await cart.getByRole("button", { name: "Remove" }).first().click();
+  await cart.getByRole("button", { name: "Remove" }).first().click();
+  await expect(cart).toContainText("Your order is empty.");
+  await expect(cart.getByRole("button", { name: /Review order/i })).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await page.evaluate(() => window.localStorage.setItem("softbazzar_cart_v1", "{malformed"));
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText("NaN");
+  await page.screenshot({ path: testInfo.outputPath("mobile-root.png"), fullPage: true });
+
+  const origin = new URL(hostedUrl!).origin;
+  await page.goto(`${origin}/404`, { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: "Page Not Found" })).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+  expect(failedResponses).toEqual([]);
+});
