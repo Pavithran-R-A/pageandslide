@@ -44,4 +44,4 @@
 - [x] Add truthful Organization, WebSite, and catalogue-derived Service/Offer structured data without invented local-business claims or reviews.
 - [x] Prepare a branded 1200×630 social image and concise answer-oriented copy without altering the approved design.
 - [x] Add focused coverage and run TypeScript, Vitest, production build, local Playwright, and hosted Preview QA.
-- [ ] Commit only to the preview branch, confirm the Preview remains non-indexable, and document launch-only search-platform steps.
+- [x] Commit only to the preview branch, confirm the Preview remains non-indexable, and document launch-only search-platform steps.
