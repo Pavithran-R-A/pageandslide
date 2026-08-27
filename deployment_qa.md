@@ -9,10 +9,10 @@
 | Repository | `Pavithran-R-A/softbazzar` |
 | Branch | `vercel-preview/softbazzar-qa-20260827` |
 | Starting HEAD | `9fde075238894d37a7e185b5597659060f2ef176` |
-| Final rebrand HEAD | Pending final commit |
+| Final rebrand HEAD | `bd2e5ac0302074637d4e8d2155e6601a61c6ddeb` |
 | Existing Vercel project | `softbazzar` — `prj_q3cMbX3jlTvZv92oXOCaH3HdtjqI` |
-| Final Preview deployment | Pending final push |
-| Final Preview URL | Pending final push |
+| Final Preview deployment | `dpl_w83D8SpqCuf8BtTcEQ2mRFRco21C` — `READY` |
+| Final Preview URL | `https://softbazzar-1uniefjjm-pavithrans-projects-cae184b1.vercel.app` |
 | Deployment mode | Protected Git-backed Preview; `target: null`. No duplicate project was created and `main` was not modified. |
 
 ## Page & Slide product and brand pass
@@ -47,7 +47,7 @@ The route-aware JSON-LD publishes a truthful Page & Slide Organization, WebSite,
 | Production build | `pnpm build` passed, including SEO generation, Vite build, prerendering and server bundling. |
 | Local browser tests | `pnpm test:e2e`: **6 passed, 2 skipped**. Skips are protected-host entries requiring `HOSTED_URL`. |
 | Visual QA | Fresh desktop/mobile homepage, service-detail, Terms, Open Graph card and avatar inspections passed with no obvious visual defect. |
-| Hosted Preview QA | Pending final rebrand push. |
+| Hosted Preview QA | `HOSTED_URL=… pnpm exec playwright test -c playwright.hosted.config.ts`: **1 passed** in **21.8 seconds** against the final protected Preview. |
 
 ## Sole production blocker
 
