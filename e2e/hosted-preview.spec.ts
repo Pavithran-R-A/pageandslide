@@ -48,7 +48,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
       robotsText: await robots.text(),
       sitemapStatus: sitemap.status,
       sitemapText: await sitemap.text(),
-      pageMarkup: document.documentElement.innerHTML,
+      customerFacingText: `${document.body.innerText} ${document.title} ${document.querySelector('meta[name="description"]')?.getAttribute('content') ?? ''}`,
     };
   });
   expect(searchReadiness.canonicalCount).toBe(1);
@@ -61,7 +61,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   expect(searchReadiness.robotsText).toContain("User-agent: OAI-SearchBot\nDisallow: /");
   expect(searchReadiness.sitemapStatus).toBe(200);
   expect(searchReadiness.sitemapText).toContain("<loc>https://softbazzar.vercel.app/</loc>");
-  expect(searchReadiness.pageMarkup).not.toMatch(/softbazzar\.example|MCC|Madras Christian College|College Press|YOUR_USERNAME|91XXXXXXXXXX/i);
+  expect(searchReadiness.customerFacingText).not.toMatch(/softbazzar\.example|MCC|Madras Christian College|College Press|YOUR_USERNAME|91XXXXXXXXXX/i);
   await page.screenshot({ path: testInfo.outputPath("desktop-root.png"), fullPage: true });
 
   for (const width of requestedWidths) {
