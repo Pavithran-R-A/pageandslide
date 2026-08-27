@@ -26,3 +26,12 @@
 - [x] Add valid-contact, placeholder-contact, non-addable tier, deadline, and field-limit tests.
 - [x] Run TypeScript, Vitest, production build, local Playwright, and hosted preview regression QA.
 - [x] Commit and push the existing preview branch, verify a new Vercel preview, and record final Lighthouse scores.
+
+## Final release preparation
+
+- [x] Consolidate `deployment_qa.md` into one authoritative record for commit `a409fdbd773be61fe54857a661c4b8b3671c22a3` and its successor preview.
+- [x] Replace add-on wording with the approved subtle rate annotations while keeping both tiers non-addable.
+- [x] Tighten Telegram username validation to reject numeric first characters without changing the permitted length or remaining character set.
+- [x] Add focused Telegram-validation and add-on-copy test assertions.
+- [ ] Run TypeScript, all Vitest tests, production build, local Playwright, and hosted Vercel Playwright QA.
+- [ ] Commit and push only the preview branch, deploy one final preview, and record its actual Lighthouse scores.

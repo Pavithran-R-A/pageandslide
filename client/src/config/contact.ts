@@ -6,7 +6,7 @@ export function isConfiguredWhatsAppNumber(value: string): boolean {
 }
 
 export function isConfiguredTelegramUsername(value: string): boolean {
-  return /^[A-Za-z0-9_]{5,32}$/.test(value) && value !== "YOUR_USERNAME";
+  return /^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(value) && value !== "YOUR_USERNAME";
 }
 
 export function createWhatsAppContactUrl(number: string): string | null {

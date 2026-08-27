@@ -29,10 +29,11 @@ export function ServiceCatalogue({ onAdded }: ServiceCatalogueProps) {
         const key = `${service.id}:${tier.id}`;
         const isAdded = addedKey === key;
         const isAddable = tier.addable !== false;
+        const rateText = isAddable ? formatRupees(tier.price) : `${formatRupees(tier.price)} each`;
         return <div className="tier-row" key={tier.id}>
-          <div className="tier-label"><span>{tier.label}</span>{tier.unit.startsWith("per") && <small>{tier.unit}</small>}</div>
-          <strong>{formatRupees(tier.price)}</strong>
-          {isAddable ? <button type="button" className="add-tier" onClick={() => addTier(service.id, tier.id, `${service.name} — ${tier.label}`)}>{isAdded ? "Added" : "Add"}</button> : <span className="tier-note" style={{ minWidth: 56, color: "var(--taupe)", fontSize: 10, lineHeight: 1.15, textAlign: "right" }}>Base service required</span>}
+          <div className="tier-label"><span>{tier.label}</span>{tier.unit.startsWith("per") && <small>{isAddable ? tier.unit : "above package"}</small>}</div>
+          <strong>{rateText}</strong>
+          {isAddable ? <button type="button" className="add-tier" onClick={() => addTier(service.id, tier.id, `${service.name} — ${tier.label}`)}>{isAdded ? "Added" : "Add"}</button> : <span className="tier-note" style={{ minWidth: 56, color: "var(--taupe)", fontSize: 10, lineHeight: 1.15, textAlign: "right" }}>Add-on rate</span>}
         </div>;
       })}</div>
     </article>)}</div>

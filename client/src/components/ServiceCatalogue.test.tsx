@@ -12,6 +12,11 @@ describe("ServiceCatalogue", () => {
     expect(additionalPage).not.toBeNull();
     expect(within(additionalSlide!).queryByRole("button", { name: "Add" })).not.toBeInTheDocument();
     expect(within(additionalPage!).queryByRole("button", { name: "Add" })).not.toBeInTheDocument();
-    expect(within(additionalSlide!).getByText("Base service required")).toBeVisible();
+    expect(within(additionalSlide!).getByText("₹15 each")).toBeVisible();
+    expect(within(additionalSlide!).getByText("above package")).toBeVisible();
+    expect(within(additionalSlide!).getByText("Add-on rate")).toBeVisible();
+    expect(within(additionalPage!).getByText("₹8 each")).toBeVisible();
+    expect(within(additionalPage!).getByText("above package")).toBeVisible();
+    expect(within(additionalPage!).getByText("Add-on rate")).toBeVisible();
   });
 });

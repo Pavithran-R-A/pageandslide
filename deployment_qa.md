@@ -1,77 +1,38 @@
-# Vercel Preview Deployment and Hosted QA Record
+# SoftBazzar — Authoritative Release Status
 
-## Deployment context
+> **Status:** This document is the single authoritative deployment and QA record. Earlier deployment summaries and the obsolete `a2c9e9…` final summary are superseded. Historical manual-manifest attempts are intentionally omitted here because they no longer describe the release candidate.
 
-The Vercel team selected was `Pavithran's projects` (`team_FFtBNFMsQMOc92Oqv2wnrC6Y`). An existing project named `softbazzar` was identified (`prj_q3cMbX3jlTvZv92oXOCaH3HdtjqI`), which is distinct from the other listed projects and was used only for preview-target deployments. No custom domain was attached and no Vercel production deployment was requested or created.
+## Current source and deployment baseline
 
-## Pre-deployment audit
+| Item | Current verified baseline |
+|---|---|
+| Branch | `vercel-preview/softbazzar-qa-20260827` |
+| Source commit | `a409fdbd773be61fe54857a661c4b8b3671c22a3` |
+| Vercel deployment | `dpl_2NsyAxw6SBkegLZNrZ2SqHPowzE6` — `READY` |
+| Preview URL | `https://softbazzar-dre9x31pa-pavithrans-projects-cae184b1.vercel.app` |
+| Release mode | Git-backed protected Vercel Preview; no custom domain, no production promotion, no `main` merge |
 
-The source checkpoint at the start of the task was `f7fc45f7`; the only untracked file was the task QA checklist. TypeScript passed. Vitest passed with 5 test files and 15 tests. The Vite production build passed. Playwright passed with 6 desktop/mobile smoke tests. The central catalogue is `client/src/data/services.ts`; derived totals are implemented in `client/src/lib/pricing.ts`; and intentionally safe placeholder contact settings are in `client/src/config/contact.ts`.
+## Production gaps repaired in the current baseline
 
-## Deployment findings to date
+The corrected source uses secure anchor links with `target="_blank"` and `rel="noopener noreferrer"` for valid WhatsApp and Telegram destinations. This removes the false popup-blocked path caused by interpreting `window.open` with `noopener` as a failure. Valid-contact component tests assert both generated destinations and the absence of the erroneous popup-blocked feedback.
 
-The first preview deployment, `dpl_4tc7JtGSzeHQ2ksSxHPyAL11VovW`, failed during `pnpm install --frozen-lockfile` because `patches/wouter@3.7.1.patch` was omitted from the manually supplied file set. The second deployment, `dpl_2dtDHqr8SYU1oZA54JtkDorrzUkR`, completed installation but failed because `client/src/components/ui/button.tsx` was omitted, and it exposed unresolved `%VITE_ANALYTICS_*%` placeholders in HTML. The third deployment, `dpl_fGL92oUuC36HofJpqxqfyxh5u3CN`, failed because `client/src/components/ui/card.tsx`, imported by the fallback page, was also omitted.
+Footer contact controls now become genuine direct links when configured, while placeholder values keep their existing safe state and provide visible, non-destructive unavailable feedback. The Additional slide ₹15 and Additional page ₹8 rows are modelled as visible, non-addable rates and are rejected by both UI and cart validation. The checkout rejects past deadlines, supplies a local `datetime-local` minimum, limits Name to 80 characters, Topic / Requirement to 200, and Notes to 500. The hero eyebrow reads `FOR MCC STUDENTS`; the independent-service footer disclaimer remains intact.
 
-The manifest generator has therefore been corrected to recursively include all `client/src` and `client/public` source files as well as root build configuration and lockfile patches. The unresolved optional analytics placeholder was removed because analytics is not configured for this Vercel preview. No visual design or product-flow changes were made.
-
-## Git-backed fallback deployment
-
-The one final complete-manifest preview attempt, `dpl_PAUGc9Cr79AMdypk7Hgi6PGVQ8px`, failed with `Could not resolve entry module "client/index.html"`. Per the approved stop condition, no further manual source-manifest variations were attempted. The Vercel-linked GitHub repository `Pavithran-R-A/softbazzar` was confirmed to exist with `main` as its default branch. The verified current source was committed as `374f38f06e5c6b1c2da1e33eba903e8e929c74a4` on the new branch `vercel-preview/softbazzar-qa-20260827` and pushed without changing or merging `main`.
-
-Vercel automatically created Git-backed preview deployment `dpl_HshjQ7HeZL7Fv7HtGyj2MvUckxwq` from that branch. It reached `READY` status at `https://softbazzar-owlgd2qkk-pavithrans-projects-cae184b1.vercel.app`; the branch alias is `https://softbazzar-git-vercel-previ-4b8711-pavithrans-projects-cae184b1.vercel.app`. The deployment target is a preview (`target: null` in Vercel’s Git deployment record), and no custom domain was added.
-
-## Hosted routing correction
-
-Although the first Git-backed preview reported `READY`, its hosted root served the compiled `server/index.ts` source rather than the storefront. This was a genuine deployment configuration defect, not a visual design issue. A minimal root-level `vercel.json` was added to specify Vite, `pnpm exec vite build`, `dist/public` as the output directory, and an SPA fallback to `/index.html`. The correction was committed as `705a46400c919df4882dc0d31369bc9d7a2811db` on the same preview branch.
-
-Vercel then created Git-backed deployment `dpl_8rcVeVAyLiw6F1oRbYBTo4zMG4yk` at `https://softbazzar-dgqa7hcq4-pavithrans-projects-cae184b1.vercel.app`, which reached `READY`. The hosted root was opened through its temporary Vercel share link and verified to render the approved SoftBazzar page with the correct title, header, hero, service catalogue, FAQ, footer, and 44 discovered interactive controls.
-
-## Current hosted preview QA
-
-The focus-return correction was deployed through Git as `dpl_B11KLWzDzPeWeRqHBumxGuBjyNEb` at `https://softbazzar-ewkdovpku-pavithrans-projects-cae184b1.vercel.app` from commit `1136ca6df856544fb8db628e5eb10e17f8f46ad0`. Its hosted root was opened through the generated Vercel share link and renders the same approved editorial storefront with a valid `SoftBazzar | Student Presentation & Document Services` title and the complete expected content hierarchy.
-
-The first hosted automation run correctly exposed that focus did not return to the cart trigger after an Escape close. This was corrected in `CartDialog.tsx` and deployed. A second run reached the cart quantity, pricing, form validation, persistence, and contact-fallback checks but stopped because the QA selector ambiguously matched two quantities labelled `Quantity 1`; the selector has been scoped to the Presentation line. A subsequent run reached the direct route check but the generic `networkidle` wait expired on `/404`; the route will be checked directly with a more appropriate document-load condition. These are QA-harness refinements, not new application defects.
-
-The completed hosted test suite then passed in 58.9 seconds against the current preview. It covered the requested 320, 360, 390, 430, 768, 1024, 1280, and 1440 pixel widths with no horizontal overflow and verified the full cart, persistence, checkout, pricing, contact safety, keyboard FAQ, controlled dialog, and SPA-fallback paths. The directly loaded hosted `/404` path returned SoftBazzar’s internal not-found view rather than a Vercel 404.
-
-The final 1280-pixel full-page root screenshot was visually reviewed and matches the approved warm ivory editorial layout, serif display typography, burgundy accent, restrained gold detail, sparse rule-based catalogue, dark final CTA, and compact footer. The desktop cart screenshot was also reviewed: the drawer has usable contrast, aligned price/quantity controls, a clear close target, and a visible review action. No visual or responsive defect was found in these desktop states.
-
-The hosted desktop order-review screenshot was reviewed. It shows a stable `SB-20260827-MIWW` style reference, Presentation ₹249 plus Project reports ₹199, the expected ₹448 subtotal, ₹112 priority surcharge, and ₹560 integer total. The review layout keeps the values, customer details, close button, edit affordance, and both channel actions clear. The mobile 390-pixel screenshot was also reviewed: the header, intentionally generous headline wrap, readable supporting copy, burger-free mobile header, and burgundy fixed cart bar remain legible and unclipped. The bar visibly reports 2 items and ₹448 while leaving space below the document content. No mobile visual defect was found.
-
-The 390-pixel hosted full-page screenshot was reviewed across all major sections. The mobile catalogue keeps the service names, tier labels, price column, and Add targets scannable without horizontal overflow; the Combination Pricing module remains distinct without visual clutter. The route, FAQ, final CTA, and footer all retain their intended hierarchy and spacing. The taller hero is deliberate rather than excessive at this width: it keeps the serif headline readable and supports the approved editorial identity.
-
-The browser console was inspected on the current hosted root after the flow checks and produced no console output or errors. Hosted Lighthouse measured Performance 99, Accessibility 95, Best Practices 100, and SEO 66. The sole failing SEO audit is `is-crawlable` (`Page is blocked from indexing`); it will be traced to its deployed response header before any configuration change is considered.
-
-The Vercel preview response sets `X-Robots-Tag: noindex` and requires the temporary share link before it can load, so the hosted SEO score of 66 is a preview-protection effect rather than an application regression. This is appropriate for the requested non-production staging preview and should not be removed. The rendered hosted metadata was verified: title, description, viewport, favicon path, canonical placeholder `https://softbazzar.example/`, Open Graph title, Open Graph description, and neutral Open Graph image placeholder are present. The temporary preview intentionally retains the neutral canonical/OG domain rather than incorrectly claiming the Vercel URL as final. The live `/robots.txt`, `/sitemap.xml`, `/favicon.svg`, and `/softbazzar-social.svg` responses all returned 200 with the expected content types.
-
-The expanded hosted suite confirmed the expected same-day math through the live UI: ₹448 subtotal, ₹224 surcharge, and ₹672 total. Its only subsequent halt was a QA-harness assertion that incorrectly expected the same reference after an explicit Edit details action followed by a new review submission. The UI intentionally generates a fresh reference at that new review step; the revised check verifies reference shape and its stability through WhatsApp and Telegram channel actions within each review state. This is not an application defect.
-
-## Final hosted QA summary
-
-The final preview source is commit `a2c9e9a81b71caec3fadbe844e40927d03cdd652` on the dedicated `vercel-preview/softbazzar-qa-20260827` branch. Vercel deployment `dpl_3F1EK5WgN8vQgzSVZWLUsj5fqxSQ` reached `READY` at `https://softbazzar-6b8z8kg05-pavithrans-projects-cae184b1.vercel.app`. It is a Git-backed preview with no custom domain, no production promotion, and no default-branch merge.
+## Verified quality baseline
 
 | Verification area | Result |
 |---|---|
-| Local pre-deployment gate | TypeScript check and production build passed. Vitest: 15 of 15 tests passed. Local Playwright: 6 applicable checks passed; 2 configured entries were skipped by the existing runner. |
-| Hosted functional QA | Passed directly against the Vercel preview. The suite verified all service categories, duplicate quantity merging, mixed-item cart math, quantity increase/decrease/removal, empty-cart state, localStorage persistence, malformed-storage recovery, delivery radio controls, form validation, notes limit, fresh reference shape, and configuration-safe WhatsApp/Telegram handling. |
-| Hosted pricing cases | A: Presentation 11–15 slides = ₹249; B: Presentation ₹249 + Project report ₹199 = ₹448, Priority ₹112, Total ₹560; C: Same-day ₹224, Total ₹672. |
-| Responsive and visual QA | Passed at 320, 360, 390, 430, 768, 1024, 1280, and 1440 pixels without horizontal overflow. Final hosted desktop root, cart, order review, mobile root, and mobile cart-bar screenshots were captured and reviewed. |
-| Accessibility and runtime QA | FAQ keyboard interaction works. Controlled cart drawer returns focus to its exact desktop or mobile trigger after close. Dialogs use role, title, labelled inputs, Escape close, and logical focus. The final hosted suite observed no console errors or failed application responses. |
-| Hosted assets and metadata | `/robots.txt`, `/sitemap.xml`, `/favicon.svg`, and `/softbazzar-social.svg` returned 200. Title, description, viewport, favicon, canonical, and Open Graph tags were rendered on the hosted page. |
-| Final hosted Lighthouse | Performance 98; Accessibility 95; Best Practices 100; SEO 66. SEO is reduced solely by Vercel preview protection’s `X-Robots-Tag: noindex`, which is correct for this non-production protected preview. |
+| TypeScript and production build | Passed. |
+| Vitest | 23 of 23 tests passed across 9 test files. |
+| Local Playwright | 6 applicable checks passed; 2 protected-host entries were skipped when no hosted URL was supplied. |
+| Hosted Vercel Playwright | Passed against the current Preview. It verified widths from 320 to 1440 pixels, cart persistence, quantity changes, safe placeholder contacts, form validation, delivery math, focus restoration, direct routing, console state, and response failures. |
+| Hosted pricing checks | Presentation 11–15 slides ₹249; mixed cart ₹448; priority total ₹560; same-day total ₹672. |
+| Hosted Lighthouse | Performance 99, Accessibility 95, Best Practices 100, SEO 66. Preview protection correctly sends `X-Robots-Tag: noindex`, which is the sole reason the protected staging URL is not crawlable. |
 
-### Verified defects corrected
+## Audited cleanup
 
-The manual deployment API path failed three times because the manually supplied build transport could not consistently honour the nested Vite root and source layout. The final attempt failed with `Could not resolve entry module "client/index.html"`; manual source-manifest retries then stopped exactly as requested. The Git-backed branch deployment succeeded. Its first `READY` preview served the server bundle instead of the Vite client, which was corrected with the minimal `vercel.json` build/output/routing configuration. Hosted QA then identified that a controlled cart drawer did not restore focus after closing. The final implementation captures the initiating cart control and restores focus to that exact element, including the mobile cart bar. No unverified or speculative visual changes were made.
+Removed only unreferenced template/debug artifacts: `client/public/.gitkeep`, `client/public/__manus__/debug-collector.js`, `client/src/components/ManusDialog.tsx`, `client/src/components/Map.tsx`, `client/src/const.ts`, and `shared/const.ts`. The public debug artifact and Vite debug/storage proxy were removed together. `client/src/hooks/usePersistFn.ts` was retained because the active composition hook imports it.
 
-## Production-gap remediation — 27 August 2026
+## Pending final release-preparation update
 
-Commit `a409fdbd773be61fe54857a661c4b8b3671c22a3` was pushed to the existing `vercel-preview/softbazzar-qa-20260827` branch and produced Vercel preview deployment `dpl_2NsyAxw6SBkegLZNrZ2SqHPowzE6` at `https://softbazzar-dre9x31pa-pavithrans-projects-cae184b1.vercel.app`. The deployment is `READY`, has no custom domain, has not been promoted, and does not merge or modify `main`.
-
-The local release gate passed: TypeScript, 23 of 23 Vitest tests, production build, and 6 local Playwright checks (the protected-host suite is intentionally skipped when no `HOSTED_URL` is provided). The full protected-host Playwright suite then passed against the actual Vercel preview. It rechecked all required widths without horizontal overflow, cart operations and persistence, the non-addable add-on rows, deadline rejection, field limits, order reference, live pricing, placeholder-safe channel states, dialog focus, console errors, network responses, and direct routing.
-
-The approved visual system was preserved. The only visible homepage copy change is the requested hero eyebrow, now `FOR MCC STUDENTS`; the independent-service disclaimer remains in the footer. The exact approved hero, catalogue, typography, palette, spacing, and layout were otherwise not redesigned. The final browser content inspection confirmed the new eyebrow and showed 21 Add buttons—two fewer than before because Additional slide and Additional page are now non-addable information rows.
-
-Audited cleanup removed only unused template or debug artifacts: `client/public/.gitkeep`, `client/public/__manus__/debug-collector.js`, `client/src/components/ManusDialog.tsx`, `client/src/components/Map.tsx`, `client/src/const.ts`, and `shared/const.ts`. The initially considered `client/src/hooks/usePersistFn.ts` was retained after the type check established that the active composition hook imports it. The Vite development debug and storage proxy plugins were removed together with their now-unused public debug path.
-
-Final Lighthouse against `dpl_2NsyAxw6SBkegLZNrZ2SqHPowzE6` measured Performance 99, Accessibility 95, Best Practices 100, and SEO 66. As in the earlier preview audit, SEO is reduced only by Vercel’s protected-preview `X-Robots-Tag: noindex`; no production indexing configuration was changed for this staging deployment.
+The approved add-on wording and tightened Telegram validation are being applied after this baseline. Once their focused tests, full local release gate, hosted QA, and a fresh Preview deployment complete, this document will be updated in place with that successor commit, deployment URL, exact test counts, and actual Lighthouse results.
