@@ -25,4 +25,4 @@
 - [x] Remove only demonstrably unused template/debug artifacts and stale design comments.
 - [x] Add valid-contact, placeholder-contact, non-addable tier, deadline, and field-limit tests.
 - [x] Run TypeScript, Vitest, production build, local Playwright, and hosted preview regression QA.
-- [ ] Commit and push the existing preview branch, verify a new Vercel preview, and record final Lighthouse scores.
+- [x] Commit and push the existing preview branch, verify a new Vercel preview, and record final Lighthouse scores.
