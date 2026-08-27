@@ -1,42 +1,51 @@
 # SoftBazzar — Authoritative Preview QA and Search-Readiness Record
 
-> **Authoritative status:** This document supersedes all earlier deployment summaries, including the obsolete `a2c9e9…` checkpoint. **This release candidate has not been promoted to production, merged into main, or attached to a final custom domain.** Historical production deployments from `main` are preserved and outside this release-candidate record.
+> **Authoritative status:** This document supersedes earlier deployment summaries. The final release pass remains a protected Preview only: it has not been promoted to production, merged into `main`, attached to a custom domain, or submitted for search indexing.
 
 ## Current release candidate
 
 | Item | Verified current value |
 |---|---|
+| Repository | `Pavithran-R-A/softbazzar` |
 | Branch | `vercel-preview/softbazzar-qa-20260827` |
-| Core production-gap repair | `a409fdbd773be61fe54857a661c4b8b3671c22a3` |
-| Prior release-preparation commits | `197dd2a57b97b6f605a39367f74de85a0a43c435`, `2602e2f71892eea537fcf414e4728531b6e4eb7f` |
-| Search-readiness commits | `e4a424118bed72b93d6b31325971f6f166a43dc6`, `009f758f002e13494b7c2df75ba69a1c459ddfb9`, `c84d5d232c0bd8bf399ae048edb92c8f95e73051` |
-| Current Vercel deployment | `dpl_Hk8oZRox1wyFz2TK4jmnv7LG7ELZ` — `READY` |
-| Preview URL | `https://softbazzar-reuw4d5gx-pavithrans-projects-cae184b1.vercel.app` |
-| Deployment mode | Protected Git-backed Preview; `target: null`. This release candidate has not been promoted to production, merged into `main`, or attached to a final custom domain. |
+| Starting HEAD | `39b90cb04c26f25f083bac14926d388daa9838d8` |
+| Final HEAD | `fd115a8036f7467d10d8abc5a4b1e30090c4611a` |
+| Existing Vercel project | `softbazzar` — `prj_q3cMbX3jlTvZv92oXOCaH3HdtjqI` |
+| Current Vercel deployment | `dpl_HkKSAVpb45vtZti8U2cdp7cWvzEs` — `READY` |
+| Preview URL | `https://softbazzar-icfyoasqj-pavithrans-projects-cae184b1.vercel.app` |
+| Deployment mode | Protected Git-backed Preview; `target: null`. No duplicate project was created and `main` was not modified. |
 
-## Repaired production gaps
+## Final product and trust pass
 
-Valid WhatsApp and Telegram order actions are secure anchors with `target="_blank"` and `rel="noopener noreferrer"`; they no longer treat a `window.open()` return value as evidence of popup blocking. The footer turns the current centralized public contacts into direct links: `https://wa.me/919025857269` and `https://t.me/softbazzar`. Focused tests verify those destinations, full encoded checkout messages, and the safe invalid-contact fallback.
+SoftBazzar now presents a broad college-student storefront for presentations, assignment support, project reports, notes and resumes. The homepage leads with a clear “Your college work, professionally presented.” proposition, visible pricing anchors, a restrained editorial palette, service-specific routes, a clear brief-to-order process, answer-engine-friendly FAQs, and a final direct-order CTA.
 
-Additional slide and Additional page remain visible, informational **non-addable** rates. They now read `₹15 each` / `₹8 each` above package, with a subtle `Add-on rate` annotation, and the cart validation layer rejects either as a standalone line. Checkout rejects past deadlines, provides a local datetime minimum, limits Name to 80 characters, Topic / Requirement to 200, and preserves Notes at 500. Telegram validation accepts only 5–32 character public-style names beginning with a letter and using letters, digits, or underscores; numeric/underscore prefixes are rejected. The only visible brand-copy change remains `FOR MCC STUDENTS`; the independent-service disclaimer remains unchanged.
+A shared storefront layout keeps the previously verified cart, checkout, WhatsApp and Telegram actions available on homepage, service and legal routes. Direct order actions remain secure anchors with `target="_blank"` and `rel="noopener noreferrer"`; the footer uses the configured destinations `https://wa.me/919025857269` and `https://t.me/softbazzar`. The cart identifier `softbazzar_cart_v1`, validation, quantities, delivery surcharges, deadline checks and local-only checkout fields remain preserved.
+
+Additional slide and Additional page remain informational **non-addable** rates at `₹15 each` and `₹8 each` above package. Detail routes use the central catalogue as their pricing source. Legal pages cover Terms, Privacy, Refunds, Delivery and revisions, Academic Integrity, Accessibility, and Contact/grievance guidance without inventing an email address, legal entity, address, registration number, reviews, ratings or institutional affiliation. The missing legal email is recorded as an explicit production blocker in `release_configuration.md`.
 
 ## Search, answer-engine, and generative-search readiness
 
-The production canonical baseline is centralized at `https://softbazzar.vercel.app/` and used by the built canonical link, Open Graph URL, social image URL, Twitter card metadata, generated `robots.txt`, generated `sitemap.xml`, and JSON-LD. The bundled 1200×630 PNG social card is served from that canonical domain. The production crawl file allows ordinary crawlers and `OAI-SearchBot`; protected Preview deployments retain Vercel's `X-Robots-Tag: noindex` response.
+The production canonical baseline is centralized at `https://softbazzar.vercel.app/` and is used for canonical links, Open Graph and Twitter metadata, the source-controlled `1200×630` social card, generated `robots.txt`, generated `sitemap.xml`, and JSON-LD. The build now prerenders meaningful initial HTML and route-specific metadata for the homepage, five service routes and seven customer-facing legal/contact routes. Preview builds generate closed crawl files and route metadata with `noindex, nofollow`; Vercel protection remains enabled.
 
-The rendered JSON-LD passes `JSON.parse` validation and publishes only a truthful Organization, WebSite, and catalogue-derived Service/Offer graph. It uses the central service catalogue as the price source, INR as currency, the supplied telephone and Telegram presence, and excludes the non-purchasable add-on rates. It makes no local-business, address, review, rating, registration, hours, or MCC-affiliation claim. `search_launch.md` contains the remaining post-production Google Search Console, Bing Webmaster Tools, optional IndexNow, and OAI-SearchBot verification steps. No MCC survey findings were available in the repository, so no evidence section was added.
+The route-aware JSON-LD passes `JSON.parse` validation and publishes a truthful Organization, WebSite, WebPage and catalogue-derived Service/Offer graph. Offers use INR and exclude non-purchasable add-on rates. No MCC, Madras Christian College, local-business, address, review, rating, registration, hours or affiliation claim remains in customer-facing content. `search_launch.md` retains the post-production Google Search Console, Bing Webmaster Tools, optional IndexNow and OAI-SearchBot verification steps. Search indexing has not been requested for the protected Preview.
 
 ## Final verification results
 
 | Verification | Exact result |
 |---|---|
+| Branch safety | Final local and remote HEAD are `fd115a8036f7467d10d8abc5a4b1e30090c4611a` on `vercel-preview/softbazzar-qa-20260827`; working tree is clean after push. |
 | TypeScript | `pnpm check` passed. |
-| Unit tests | `pnpm test`: **12 test files, 29 tests passed**. Focused coverage includes the configured public contacts, centralized metadata/crawl generation, JSON-LD syntax and offer validity, Telegram constraints, non-addable add-ons and copy, pricing, deadline validation, and field lengths. |
-| Production build | `pnpm build` passed. |
-| Local browser tests | `pnpm test:e2e`: **6 passed, 2 skipped**. The two skips are the protected-host test entries, which require `HOSTED_URL`. |
-| Final hosted browser test | `HOSTED_URL=… pnpm exec playwright test -c playwright.hosted.config.ts`: **1 passed** in **48.2 seconds** against the current Preview. It covers canonical/Open Graph/Twitter markup, JSON-LD parsing, robots and sitemap responses, widths 320–1440, no horizontal overflow, add-on non-addability/copy, cart and localStorage behaviour, deadline rejection, checkout math, configured deep links, keyboard focus, and SPA fallback. |
-| Lighthouse context | The prior approved Preview recorded **Performance 99, Accessibility 95, Best Practices 100, SEO 66**. A fresh unauthenticated Lighthouse CLI attempt on the protected current Preview reached Vercel login rather than the app, so it is intentionally not recorded as an application score. The Preview continues to send `X-Robots-Tag: noindex`. |
+| Unit tests | `pnpm test`: **13 test files, 34 tests passed**. Coverage includes contacts, metadata/crawl generation, route metadata, JSON-LD syntax and offer validity, legal-route representation, non-addable add-ons, pricing, deadline validation, checkout fields and cart persistence. |
+| Production build | `pnpm build` passed, including SEO file generation, Vite build, route prerendering and server bundling. |
+| Local browser tests | `pnpm test:e2e`: **6 passed, 2 skipped**. The two skips are the protected-host entries requiring `HOSTED_URL`. |
+| Final hosted browser test | `HOSTED_URL=… pnpm exec playwright test -c playwright.hosted.config.ts`: **1 passed** in **22.8 seconds** against the final Preview. It covers route-specific canonical metadata, Open Graph/Twitter markup, JSON-LD parsing, protected-preview robots/sitemap responses, widths 320–1440, no horizontal overflow, route residue checks, detail-page add-to-cart, cart/localStorage behaviour, deadline rejection, checkout math, configured deep links, keyboard focus, and SPA fallback. |
+| Visual QA | Fresh local captures were inspected for desktop/mobile homepage, presentation detail, Terms, cart and checkout states. The editorial hierarchy, palette, responsive composition, pricing card, legal typography and mobile sticky cart bar were accepted with no obvious visual defects. |
+| Lighthouse context | The earlier approved Preview recorded **Performance 99, Accessibility 95, Best Practices 100, SEO 66**. A fresh unauthenticated Lighthouse CLI attempt on the protected current Preview reached Vercel login rather than the application, so no new unauthenticated application score is claimed. |
 
-## Audited cleanup retained from the core repair
+## Explicit production blockers
 
-Removed only unreferenced template/debug artifacts: `client/public/.gitkeep`, `client/public/__manus__/debug-collector.js`, `client/src/components/ManusDialog.tsx`, `client/src/components/Map.tsx`, `client/src/const.ts`, and `shared/const.ts`. `client/src/hooks/usePersistFn.ts` remains because the active composition hook imports it. The approved hero, catalogue, typography, colours, spacing, and layout were not redesigned or restructured.
+The Preview is ready for review, not final production promotion. Before production, configure and verify `VITE_LEGAL_CONTACT_EMAIL`, confirm any required operator/business disclosures, deliberately select the one canonical public origin, retest WhatsApp and Telegram destinations, then follow `search_launch.md`. No domain purchase, production promotion, main-branch change or indexing request was performed.
+
+## Retained cleanup and verified work
+
+Previously verified cart, checkout, WhatsApp/Telegram, accessibility and deployment work was preserved. Only unreferenced template/debug artifacts are excluded from the active product; the active persistence and composition modules remain in use. The release pass adds original source-controlled SoftBazzar identity assets, a deterministic social-card generator, route-aware metadata/schema, pre-rendered public routes, centralized legal copy, and explicit release configuration documentation.
