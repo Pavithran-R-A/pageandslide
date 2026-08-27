@@ -32,7 +32,7 @@ describe("final release public content", () => {
     const parsed = JSON.parse(serialized) as { "@graph": Array<Record<string, unknown>> };
     expect(parsed["@graph"].filter((node) => node["@type"] === "Organization")).toHaveLength(1);
     expect(parsed["@graph"].filter((node) => node["@type"] === "WebSite")).toHaveLength(1);
-    const presentation = parsed["@graph"].find((node) => node["@id"] === "https://softbazzar.vercel.app/#service-presentations");
+    const presentation = parsed["@graph"].find((node) => node["@id"] === "https://pageandslide.vercel.app/#service-presentations");
     expect(presentation).toBeTruthy();
     expect((presentation?.offers as Array<Record<string, unknown>>).every((offer) => offer.priceCurrency === "INR")).toBe(true);
     expect(serialized).not.toMatch(/MCC|Madras Christian College|fake|rating|aggregateRating/i);

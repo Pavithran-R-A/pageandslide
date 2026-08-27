@@ -25,8 +25,16 @@ def font(name: str, size: int) -> ImageFont.FreeTypeFont:
 def monogram(draw: ImageDraw.ImageDraw, x: int, y: int, size: int) -> None:
     draw.rectangle((x, y, x + size, y + size), fill=CHARCOAL)
     scale = size / 168
-    draw.text((x + 34 * scale, y + 29 * scale), "S", fill=BURGUNDY, font=font("serif-bold", int(83 * scale)), stroke_width=0)
-    draw.text((x + 66 * scale, y + 21 * scale), "B", fill=GOLD, font=font("serif-bold", int(83 * scale)), stroke_width=0)
+    # Custom geometric S: a single burgundy ribbon behind the P, not a font glyph.
+    s_points = [(126, 34), (109, 26), (84, 26), (63, 34), (54, 47), (59, 59), (78, 67), (103, 74), (113, 84), (109, 99), (95, 111), (76, 115), (55, 109), (39, 98)]
+    draw.line([(x + px * scale, y + py * scale) for px, py in s_points], fill=BURGUNDY, width=max(5, int(12 * scale)), joint="curve")
+    # Custom champagne P: a strong stem and open bowl that locks with the S.
+    stem_x = x + int(43 * scale)
+    stem_width = max(6, int(15 * scale))
+    draw.rectangle((stem_x, y + int(27 * scale), stem_x + stem_width, y + int(139 * scale)), fill=GOLD)
+    bowl = (x + int(48 * scale), y + int(27 * scale), x + int(126 * scale), y + int(96 * scale))
+    draw.arc(bowl, start=270, end=90, fill=GOLD, width=max(5, int(15 * scale)))
+    draw.line((x + int(61 * scale), y + int(62 * scale), x + int(85 * scale), y + int(62 * scale)), fill=GOLD, width=max(5, int(15 * scale)))
 
 
 def make_social() -> None:
@@ -34,15 +42,15 @@ def make_social() -> None:
     draw = ImageDraw.Draw(image)
     draw.rectangle((56, 56, 1144, 574), outline=LINE, width=2)
     monogram(draw, 90, 90, 168)
-    draw.text((320, 104), "SOFTBAZZAR", fill=CHARCOAL, font=font("serif-bold", 72), spacing=2)
+    draw.text((320, 104), "PAGE & SLIDE", fill=CHARCOAL, font=font("serif-bold", 72), spacing=2)
     draw.rectangle((325, 224, 421, 227), fill="#a98547")
-    draw.text((92, 337), "PRESENTATIONS · REPORTS · NOTES · RESUMES", fill=BURGUNDY, font=font("sans-bold", 19), spacing=2)
+    draw.text((92, 337), "PPTs · Reports · Notes · Resumes", fill=BURGUNDY, font=font("sans-bold", 19), spacing=2)
     draw.text((92, 392), "College work,", fill=CHARCOAL, font=font("serif-bold", 58))
     draw.text((92, 458), "professionally presented.", fill=BURGUNDY, font=font("serif-bold", 58))
     footer = "CLEAR PRICING · EDITABLE FILES · DIRECT ORDERING"
     bbox = draw.textbbox((0, 0), footer, font=font("sans", 15))
     draw.text((906 - (bbox[2] - bbox[0]), 540), footer, fill=MUTED, font=font("sans", 15))
-    image.save(PUBLIC / "softbazzar-social.png", optimize=True)
+    image.save(PUBLIC / "page-and-slide-social.png", optimize=True)
 
 
 def make_avatar() -> None:
@@ -50,7 +58,7 @@ def make_avatar() -> None:
     draw = ImageDraw.Draw(image)
     draw.rectangle((34, 34, 478, 478), outline=LINE, width=4)
     monogram(draw, 112, 112, 288)
-    image.save(PUBLIC / "softbazzar-social-avatar.png", optimize=True)
+    image.save(PUBLIC / "page-and-slide-social-avatar.png", optimize=True)
 
 
 if __name__ == "__main__":

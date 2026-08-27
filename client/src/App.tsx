@@ -10,7 +10,7 @@ import { ServiceDetail } from "@/pages/ServiceDetail";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
 
-const TermsPage = () => <LegalPage title="Terms of Service" intro="The plain-English terms for using SoftBazzar's digital student-support services." sections={TERMS_SECTIONS} />;
+const TermsPage = () => <LegalPage title="Terms of Service" intro="The plain-English terms for using Page & Slide's digital student-support services." sections={TERMS_SECTIONS} />;
 const PrivacyPage = () => <LegalPage title="Privacy Policy" intro="What stays in your browser, what is shared only when you choose a contact channel, and how to make a request." sections={PRIVACY_SECTIONS} />;
 const RefundPage = () => <LegalPage title="Refunds & cancellations" intro="A fair route for cancellation, delivery failure, priority deadlines and changed scope." sections={REFUND_SECTIONS} />;
 const DeliveryPage = () => <LegalPage title="Delivery & revisions" intro="Turnaround, priority pricing, editable delivery and what counts as a minor revision." sections={DELIVERY_SECTIONS} />;

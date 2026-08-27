@@ -3,13 +3,13 @@ import { describe, expect, it } from "vitest";
 
 describe("production search configuration", () => {
   it("centralizes the canonical, broad-audience metadata, and public contact baseline", () => {
-    expect(SITE_ORIGIN).toBe("https://softbazzar.vercel.app");
-    expect(SITE_URL).toBe("https://softbazzar.vercel.app/");
+    expect(SITE_ORIGIN).toBe("https://pageandslide.vercel.app");
+    expect(SITE_URL).toBe("https://pageandslide.vercel.app/");
     expect(SITE_METADATA.canonicalUrl).toBe(SITE_URL);
-    expect(SITE_METADATA.title).toBe("SoftBazzar | College work, professionally presented");
+    expect(SITE_METADATA.title).toBe("Page & Slide | College work, professionally presented");
     expect(SITE_METADATA.description).toContain("college students");
     expect(SITE_METADATA.title).not.toMatch(/MCC|Madras Christian College/i);
-    expect(SITE_METADATA.socialImageUrl).toBe("https://softbazzar.vercel.app/softbazzar-social.png");
+    expect(SITE_METADATA.socialImageUrl).toBe("https://pageandslide.vercel.app/page-and-slide-social.png");
     expect(ORGANIZATION_DETAILS.telephone).toBe("+91 9025857269");
     expect(ORGANIZATION_DETAILS.telegramUrl).toBe("https://t.me/softbazzar");
   });
@@ -18,9 +18,9 @@ describe("production search configuration", () => {
     const robots = createRobotsTxt();
     const sitemap = createSitemapXml();
     expect(robots).toContain("User-agent: OAI-SearchBot\nAllow: /");
-    expect(robots).toContain("Sitemap: https://softbazzar.vercel.app/sitemap.xml");
-    expect(sitemap).toContain("<loc>https://softbazzar.vercel.app/</loc>");
-    for (const route of PUBLIC_ROUTES) expect(sitemap).toContain(`<loc>https://softbazzar.vercel.app${route.path === "/" ? "/" : route.path}</loc>`);
+    expect(robots).toContain("Sitemap: https://pageandslide.vercel.app/sitemap.xml");
+    expect(sitemap).toContain("<loc>https://pageandslide.vercel.app/</loc>");
+    for (const route of PUBLIC_ROUTES) expect(sitemap).toContain(`<loc>https://pageandslide.vercel.app${route.path === "/" ? "/" : route.path}</loc>`);
     expect(`${robots}\n${sitemap}`).not.toMatch(/softbazzar\.example|MCC|Madras Christian College/i);
   });
 
@@ -31,6 +31,6 @@ describe("production search configuration", () => {
     expect(RELEASE_CONFIGURATION.whatsappConfigured).toBe(true);
     expect(RELEASE_CONFIGURATION.telegramConfigured).toBe(true);
     expect(RELEASE_CONFIGURATION.legalContactEmailConfigured).toBe(false);
-    expect(RELEASE_CONFIGURATION.blockers.join(" ")).toContain("VITE_LEGAL_CONTACT_EMAIL");
+    expect(RELEASE_CONFIGURATION.blockers).toEqual(["Set VITE_LEGAL_CONTACT_EMAIL before final production"]);
   });
 });

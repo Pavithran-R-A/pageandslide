@@ -1,4 +1,4 @@
-/** College Press: functional editorial cart drawer; preserve quiet paper, fine rules, and burgundy actions. */
+/** Functional editorial cart drawer; preserve quiet paper, fine rules, and burgundy actions. */
 import { useCart } from "@/contexts/CartContext";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { calculateSubtotal, formatRupees, resolveCartItems } from "@/lib/pricing";

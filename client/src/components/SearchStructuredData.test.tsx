@@ -13,8 +13,8 @@ describe("SearchStructuredData", () => {
     const website = graph["@graph"].find((entry) => entry["@type"] === "WebSite");
     const services = graph["@graph"].filter((entry) => entry["@type"] === "Service");
     const offers = services.flatMap((entry) => entry.offers as Array<{ name: string; price: number; priceCurrency: string }>);
-    expect(organization).toMatchObject({ name: "SoftBazzar", telephone: "+91 9025857269", sameAs: ["https://t.me/softbazzar"] });
-    expect(website).toMatchObject({ name: "SoftBazzar", url: "https://softbazzar.vercel.app/" });
+    expect(organization).toMatchObject({ name: "Page & Slide", telephone: "+91 9025857269", sameAs: ["https://t.me/softbazzar"] });
+    expect(website).toMatchObject({ name: "Page & Slide", url: "https://pageandslide.vercel.app/" });
     expect(services).toHaveLength(6);
     expect(offers).toContainEqual(expect.objectContaining({ name: "Up to 5 slides", price: 99, priceCurrency: "INR" }));
     expect(offers.map((offer) => offer.name)).not.toContain("Additional slide");

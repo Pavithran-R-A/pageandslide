@@ -15,8 +15,8 @@ function replaceAttribute(html: string, pattern: RegExp, value: string): string 
 
 function renderInitialContent(pathname: string): string {
   const route = getRouteMetadata(pathname);
-  const routeLabel = pathname === "/" ? "PRESENTATIONS · REPORTS · NOTES · RESUMES" : "SOFTBAZZAR · COLLEGE STUDENT SUPPORT";
-  return `<main class="prerender-content"><p>${escapeHtml(routeLabel)}</p><h1>${escapeHtml(route.h1)}</h1><p>${escapeHtml(route.summary)}</p><p><a href="${escapeHtml(toSiteUrl("/contact"))}">Contact SoftBazzar</a></p></main>`;
+  const routeLabel = pathname === "/" ? "PPTs · Reports · Notes · Resumes" : "PAGE & SLIDE · COLLEGE STUDENT SUPPORT";
+  return `<main class="prerender-content"><p>${escapeHtml(routeLabel)}</p><h1>${escapeHtml(route.h1)}</h1><p>${escapeHtml(route.summary)}</p><p><a href="${escapeHtml(toSiteUrl("/contact"))}">Contact Page & Slide</a></p></main>`;
 }
 
 function renderRouteDocument(template: string, pathname: string): string {
@@ -41,7 +41,7 @@ async function main(): Promise<void> {
     await mkdir(path.dirname(destination), { recursive: true });
     await writeFile(destination, renderRouteDocument(template, route.path), "utf8");
   }
-  await writeFile(path.join(outputRoot, "_softbazzar-prerendered.txt"), `Generated ${PUBLIC_ROUTES.length} public route documents from ${SITE_METADATA.canonicalUrl}\n`, "utf8");
+  await writeFile(path.join(outputRoot, "_page-and-slide-prerendered.txt"), `Generated ${PUBLIC_ROUTES.length} public route documents from ${SITE_METADATA.canonicalUrl}\n`, "utf8");
 }
 
 await main();

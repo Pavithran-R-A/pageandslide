@@ -18,7 +18,7 @@ describe("Telegram public username validation", () => {
     expect(isConfiguredTelegramUsername("student-name")).toBe(false);
   });
 
-  it("publishes only the configured SoftBazzar contact destinations", () => {
+  it("publishes only the configured Page & Slide contact destinations", () => {
     expect(WHATSAPP_NUMBER).toBe("919025857269");
     expect(TELEGRAM_USERNAME).toBe("softbazzar");
     expect(createWhatsAppContactUrl(WHATSAPP_NUMBER)).toBe("https://wa.me/919025857269");

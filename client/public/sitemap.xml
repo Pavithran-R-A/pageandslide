@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://softbazzar.vercel.app/</loc>
+    <loc>https://pageandslide.vercel.app/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/presentations</loc>
+    <loc>https://pageandslide.vercel.app/presentations</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/assignment-support</loc>
+    <loc>https://pageandslide.vercel.app/assignment-support</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/project-reports</loc>
+    <loc>https://pageandslide.vercel.app/project-reports</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/notes</loc>
+    <loc>https://pageandslide.vercel.app/notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/resumes</loc>
+    <loc>https://pageandslide.vercel.app/resumes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/terms</loc>
+    <loc>https://pageandslide.vercel.app/terms</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/privacy</loc>
+    <loc>https://pageandslide.vercel.app/privacy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/refunds</loc>
+    <loc>https://pageandslide.vercel.app/refunds</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/delivery-revisions</loc>
+    <loc>https://pageandslide.vercel.app/delivery-revisions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/academic-integrity</loc>
+    <loc>https://pageandslide.vercel.app/academic-integrity</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/contact</loc>
+    <loc>https://pageandslide.vercel.app/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://softbazzar.vercel.app/accessibility</loc>
+    <loc>https://pageandslide.vercel.app/accessibility</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

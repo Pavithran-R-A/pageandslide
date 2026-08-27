@@ -13,10 +13,10 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   page.on("response", (response) => { if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`); });
 
   await page.goto(hostedUrl!, { waitUntil: "domcontentloaded" });
-  await expect(page).toHaveTitle("SoftBazzar | College work, professionally presented");
+  await expect(page).toHaveTitle("Page & Slide | College work, professionally presented");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
   await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
-  await expect(page.getByText("PRESENTATIONS · REPORTS · NOTES · RESUMES", { exact: true })).toBeVisible();
+  await expect(page.getByText("PPTs · Reports · Notes · Resumes", { exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
   const origin = new URL(hostedUrl!).origin;
@@ -24,7 +24,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   for (const route of publicRoutes) {
     await page.goto(`${origin}${route}`, { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://softbazzar.vercel.app${route}`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://pageandslide.vercel.app${route}`);
     const routeBodyText = await page.locator("body").textContent();
     expect(routeBodyText).not.toMatch(/MCC|Madras Christian College|softbazzar\.example|YOUR_USERNAME|91XXXXXXXXXX/i);
   }
@@ -52,15 +52,15 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
     };
   });
   expect(searchReadiness.canonicalCount).toBe(1);
-  expect(searchReadiness.canonical).toBe("https://softbazzar.vercel.app/");
-  expect(searchReadiness.ogUrl).toBe("https://softbazzar.vercel.app/");
-  expect(searchReadiness.socialImage).toBe("https://softbazzar.vercel.app/softbazzar-social.png");
+  expect(searchReadiness.canonical).toBe("https://pageandslide.vercel.app/");
+  expect(searchReadiness.ogUrl).toBe("https://pageandslide.vercel.app/");
+  expect(searchReadiness.socialImage).toBe("https://pageandslide.vercel.app/page-and-slide-social.png");
   expect(searchReadiness.twitterCard).toBe("summary_large_image");
   expect(searchReadiness.structuredData).toMatchObject({ "@context": "https://schema.org" });
   expect(searchReadiness.robotsStatus).toBe(200);
   expect(searchReadiness.robotsText).toContain("User-agent: OAI-SearchBot\nDisallow: /");
   expect(searchReadiness.sitemapStatus).toBe(200);
-  expect(searchReadiness.sitemapText).toContain("<loc>https://softbazzar.vercel.app/</loc>");
+  expect(searchReadiness.sitemapText).toContain("<loc>https://pageandslide.vercel.app/</loc>");
   expect(searchReadiness.customerFacingText).not.toMatch(/softbazzar\.example|MCC|Madras Christian College|College Press|YOUR_USERNAME|91XXXXXXXXXX/i);
   await page.screenshot({ path: testInfo.outputPath("desktop-root.png"), fullPage: true });
 
