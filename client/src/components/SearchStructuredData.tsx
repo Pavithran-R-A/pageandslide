@@ -1,32 +1,27 @@
-/**
- * Design integrity: this nonvisual component only publishes truthful structured data.
- * It intentionally leaves SoftBazzar's approved warm-ivory editorial composition unchanged.
- */
-import { ORGANIZATION_DETAILS, SITE_METADATA, SITE_URL } from "@/config/site";
-import { SERVICE_CATEGORIES } from "@/data/services";
+import { getRouteMetadata, ORGANIZATION_DETAILS, SITE_METADATA, SITE_URL, toSiteUrl } from "@/config/site";
+import { SERVICE_CATEGORIES, findService, SERVICE_PAGE_DETAILS } from "@/data/services";
+import { useLocation } from "wouter";
 
-const organizationReference = { "@id": ORGANIZATION_DETAILS.id } as const;
-
-const catalogueServices = SERVICE_CATEGORIES.map((service) => ({
-  "@type": "Service",
-  "@id": `${SITE_URL}#service-${service.id}`,
-  name: service.name,
-  description: service.description,
-  provider: organizationReference,
-  offers: service.tiers
-    .filter((tier) => tier.addable !== false)
-    .map((tier) => ({
+export function createStructuredData(pathname = "/"): Readonly<Record<string, unknown>> {
+  const route = getRouteMetadata(pathname);
+  const serviceId = pathname === "/resumes" ? "resume" : pathname.replace(/^\//, "");
+  const selectedService = SERVICE_PAGE_DETAILS[route.path] ? findService(serviceId) : null;
+  const catalogueServices = SERVICE_CATEGORIES.map((service) => ({
+    "@type": "Service",
+    "@id": `${SITE_URL}#service-${service.id}`,
+    name: service.name,
+    description: service.description,
+    provider: { "@id": ORGANIZATION_DETAILS.id },
+    url: toSiteUrl(service.id === "resume" ? "/resumes" : `/${service.id}`),
+    offers: service.tiers.filter((tier) => tier.addable !== false).map((tier) => ({
       "@type": "Offer",
       name: tier.label,
       price: tier.price,
       priceCurrency: "INR",
-      url: `${SITE_URL}#services`,
+      url: toSiteUrl(service.id === "resume" ? "/resumes" : `/${service.id}`),
     })),
-}));
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
+  }));
+  const graph: readonly Record<string, unknown>[] = [
     {
       "@type": "Organization",
       "@id": ORGANIZATION_DETAILS.id,
@@ -35,26 +30,17 @@ const structuredData = {
       logo: ORGANIZATION_DETAILS.logo,
       description: ORGANIZATION_DETAILS.description,
       telephone: ORGANIZATION_DETAILS.telephone,
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer service",
-        telephone: ORGANIZATION_DETAILS.telephone,
-        url: ORGANIZATION_DETAILS.whatsappUrl,
-      },
-      sameAs: ORGANIZATION_DETAILS.telegramUrl ? [ORGANIZATION_DETAILS.telegramUrl] : [],
+      contactPoint: { "@type": "ContactPoint", contactType: "customer service", telephone: ORGANIZATION_DETAILS.telephone, url: ORGANIZATION_DETAILS.whatsappUrl },
+      ...(ORGANIZATION_DETAILS.telegramUrl ? { sameAs: [ORGANIZATION_DETAILS.telegramUrl] } : {}),
     },
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}#website`,
-      name: ORGANIZATION_DETAILS.name,
-      url: SITE_URL,
-      description: SITE_METADATA.description,
-      publisher: organizationReference,
-    },
+    { "@type": "WebSite", "@id": `${SITE_URL}#website`, name: ORGANIZATION_DETAILS.name, url: SITE_URL, description: SITE_METADATA.description, publisher: { "@id": ORGANIZATION_DETAILS.id } },
+    { "@type": "WebPage", "@id": `${toSiteUrl(route.path)}#webpage`, url: toSiteUrl(route.path), name: route.title, description: route.description, isPartOf: { "@id": `${SITE_URL}#website` }, ...(selectedService ? { mainEntity: { "@id": `${SITE_URL}#service-${selectedService.id}` } } : {}) },
     ...catalogueServices,
-  ],
-};
+  ];
+  return { "@context": "https://schema.org", "@graph": graph };
+}
 
 export function SearchStructuredData() {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />;
+  const [location] = useLocation();
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(createStructuredData(location)) }} />;
 }

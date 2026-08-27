@@ -1,0 +1,28 @@
+import { chromium } from "@playwright/test";
+
+const browser = await chromium.launch({ headless: true });
+const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+await desktop.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+await desktop.screenshot({ path: "visual-qa-home-desktop.png", fullPage: true });
+await desktop.goto("http://127.0.0.1:4173/presentations", { waitUntil: "networkidle" });
+await desktop.screenshot({ path: "visual-qa-service-desktop.png", fullPage: true });
+await desktop.goto("http://127.0.0.1:4173/terms", { waitUntil: "networkidle" });
+await desktop.screenshot({ path: "visual-qa-terms-desktop.png", fullPage: true });
+await desktop.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+await desktop.getByRole("button", { name: "Add" }).first().click();
+await desktop.getByRole("button", { name: /Open cart/i }).click();
+await desktop.screenshot({ path: "visual-qa-cart-desktop.png", fullPage: false });
+await desktop.getByRole("button", { name: /Review order/i }).click();
+await desktop.screenshot({ path: "visual-qa-checkout-desktop.png", fullPage: false });
+const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
+await mobile.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+await mobile.screenshot({ path: "visual-qa-home-mobile.png", fullPage: true });
+await mobile.goto("http://127.0.0.1:4173/presentations", { waitUntil: "networkidle" });
+await mobile.screenshot({ path: "visual-qa-service-mobile.png", fullPage: true });
+await mobile.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+await mobile.getByRole("button", { name: "Add" }).first().click();
+await mobile.getByRole("button", { name: /View order/i }).click();
+await mobile.screenshot({ path: "visual-qa-cart-mobile.png", fullPage: false });
+await mobile.getByRole("button", { name: /Review order/i }).click();
+await mobile.screenshot({ path: "visual-qa-checkout-mobile.png", fullPage: false });
+await browser.close();

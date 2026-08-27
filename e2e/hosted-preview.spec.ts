@@ -13,12 +13,27 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   page.on("response", (response) => { if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`); });
 
   await page.goto(hostedUrl!, { waitUntil: "networkidle" });
-  await expect(page).toHaveTitle("SoftBazzar | PPT & Report Services for MCC Students");
+  await expect(page).toHaveTitle("SoftBazzar | College work, professionally presented");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
-  await expect(page.getByText("FOR MCC STUDENTS", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
+  await expect(page.getByText("PRESENTATIONS · REPORTS · NOTES · RESUMES", { exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
+  const origin = new URL(hostedUrl!).origin;
+  const publicRoutes = ["/presentations", "/assignment-support", "/project-reports", "/notes", "/resumes", "/terms", "/privacy", "/refunds", "/delivery-revisions", "/academic-integrity", "/contact", "/accessibility"];
+  for (const route of publicRoutes) {
+    await page.goto(`${origin}${route}`, { waitUntil: "networkidle" });
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://softbazzar.vercel.app${route}`);
+    const routeBodyText = await page.locator("body").textContent();
+    expect(routeBodyText).not.toMatch(/MCC|Madras Christian College|softbazzar\.example|YOUR_USERNAME|91XXXXXXXXXX/i);
+  }
+  await page.goto(`${origin}/presentations`, { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: /Presentations that make the point clearly/i })).toBeVisible();
+  await page.getByRole("button", { name: "Add" }).first().click();
+  await expect(page.getByRole("button", { name: /Open cart, 1 items/i })).toBeVisible();
+  await page.evaluate(() => window.localStorage.removeItem("softbazzar_cart_v1"));
+  await page.goto(hostedUrl!, { waitUntil: "networkidle" });
   const searchReadiness = await page.evaluate(async () => {
     const structuredData = document.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
     const [robots, sitemap] = await Promise.all([fetch("/robots.txt"), fetch("/sitemap.xml")]);
@@ -43,16 +58,16 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   expect(searchReadiness.twitterCard).toBe("summary_large_image");
   expect(searchReadiness.structuredData).toMatchObject({ "@context": "https://schema.org" });
   expect(searchReadiness.robotsStatus).toBe(200);
-  expect(searchReadiness.robotsText).toContain("User-agent: OAI-SearchBot\nAllow: /");
+  expect(searchReadiness.robotsText).toContain("User-agent: OAI-SearchBot\nDisallow: /");
   expect(searchReadiness.sitemapStatus).toBe(200);
   expect(searchReadiness.sitemapText).toContain("<loc>https://softbazzar.vercel.app/</loc>");
-  expect(searchReadiness.pageMarkup).not.toContain("softbazzar.example");
+  expect(searchReadiness.pageMarkup).not.toMatch(/softbazzar\.example|MCC|Madras Christian College|College Press|YOUR_USERNAME|91XXXXXXXXXX/i);
   await page.screenshot({ path: testInfo.outputPath("desktop-root.png"), fullPage: true });
 
   for (const width of requestedWidths) {
     await page.setViewportSize({ width, height: 900 });
     await page.reload({ waitUntil: "networkidle" });
-    await expect(page.getByRole("heading", { name: /Present your work/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
     await expect(page.locator(".catalogue-section")).toBeVisible();
     await expect(page.locator(".process-section")).toBeVisible();
     await expect(page.locator(".faq-section")).toBeVisible();
@@ -209,7 +224,6 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   await expect(page.locator("body")).not.toContainText("NaN");
   await page.screenshot({ path: testInfo.outputPath("mobile-root.png"), fullPage: true });
 
-  const origin = new URL(hostedUrl!).origin;
   await page.goto(`${origin}/404`, { waitUntil: "domcontentloaded", timeout: 15_000 });
   await expect(page.getByRole("heading", { name: "Page Not Found" })).toBeVisible();
   expect(consoleErrors).toEqual([]);

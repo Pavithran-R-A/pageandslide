@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">SoftBazzar SB monogram</title>
+  <desc id="desc">A geometric charcoal square containing an interlocked burgundy S and champagne B.</desc>
   <rect width="128" height="128" fill="#171715"/>
   <path d="M78 28c-6-5-14-7-24-7-17 0-28 8-28 21 0 12 8 18 27 23 13 3 17 6 17 12 0 7-6 11-16 11-9 0-17-3-24-9l-7 12c8 7 19 11 31 11 18 0 30-9 30-24 0-13-8-19-27-24-13-3-17-6-17-11 0-5 5-8 14-8 8 0 14 2 20 6Z" fill="#7a3040"/>
   <path d="M58 25h23c15 0 24 7 24 19 0 7-3 12-9 15 8 3 13 9 13 18 0 14-10 22-28 22H58Zm15 12v17h8c6 0 10-3 10-9s-4-8-10-8Zm0 29v21h9c7 0 11-4 11-11s-4-10-12-10Z" fill="#d7c39b"/>

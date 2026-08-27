@@ -1,12 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "pnpm run seo:files && pnpm exec vite build",
+  "buildCommand": "pnpm run seo:files && pnpm exec vite build && pnpm exec tsx scripts/prerender-public-routes.ts",
   "outputDirectory": "dist/public",
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/presentations", "destination": "/presentations/index.html" },
+    { "source": "/assignment-support", "destination": "/assignment-support/index.html" },
+    { "source": "/project-reports", "destination": "/project-reports/index.html" },
+    { "source": "/notes", "destination": "/notes/index.html" },
+    { "source": "/resumes", "destination": "/resumes/index.html" },
+    { "source": "/terms", "destination": "/terms/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/refunds", "destination": "/refunds/index.html" },
+    { "source": "/delivery-revisions", "destination": "/delivery-revisions/index.html" },
+    { "source": "/academic-integrity", "destination": "/academic-integrity/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/accessibility", "destination": "/accessibility/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

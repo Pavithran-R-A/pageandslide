@@ -1,4 +1,4 @@
-/** College Press: a compact useReducer cart with only validated cart lines persisted. */
+/** A compact useReducer cart with only validated cart lines persisted. */
 import { readStoredCart, writeStoredCart } from "@/lib/cart-storage";
 import { CartItem } from "@/lib/pricing";
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useReducer } from "react";

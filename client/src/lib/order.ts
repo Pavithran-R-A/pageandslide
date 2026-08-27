@@ -1,4 +1,4 @@
-/** College Press: local order references and plain-text message/deep-link generation. */
+/** Local order references and plain-text message/deep-link generation. */
 import { isConfiguredTelegramUsername, isConfiguredWhatsAppNumber } from "@/config/contact";
 import { DeliverySpeed, formatRupees, OrderTotals, ResolvedCartLine } from "@/lib/pricing";
 export type OrderDetails = Readonly<{ name: string; topic: string; deadline: string; delivery: DeliverySpeed; notes: string }>;

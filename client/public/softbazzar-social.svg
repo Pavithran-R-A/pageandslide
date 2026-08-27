@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630"><rect width="1200" height="630" fill="#F5F0E6"/><path d="M120 120H1080M120 510H1080" stroke="#D7C39B"/><rect x="120" y="166" width="74" height="74" fill="none" stroke="#A98547" stroke-width="3"/><text x="157" y="215" text-anchor="middle" fill="#6B2B38" font-family="Georgia,serif" font-size="36" font-weight="700">SB</text><text x="120" y="332" fill="#171715" font-family="Georgia,serif" font-size="88" font-weight="700">SOFTBAZZAR</text><text x="124" y="393" fill="#6B2B38" font-family="Arial,sans-serif" font-size="24" letter-spacing="5">STUDENT PRESENTATION &amp; DOCUMENT SERVICES</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">SoftBazzar — college work, professionally presented</title>
+  <desc id="desc">SoftBazzar presentation, report, notes and resume support in a warm ivory, charcoal and burgundy editorial composition.</desc>
+  <rect width="1200" height="630" fill="#f5f0e6"/>
+  <rect x="56" y="56" width="1088" height="518" fill="none" stroke="#d8d0c2" stroke-width="2"/>
+  <rect x="90" y="90" width="168" height="168" fill="#171715"/>
+  <path d="M199 117c-13-10-29-15-51-15-33 0-55 16-55 42 0 25 16 37 53 48 26 6 35 13 35 25 0 15-13 23-33 23-19 0-35-6-50-19l-15 25c17 15 40 23 66 23 37 0 62-19 62-50 0-27-17-39-56-50-26-7-35-12-35-23 0-11 10-17 29-17 16 0 29 4 42 13Z" fill="#7a3040"/>
+  <path d="M146 110h48c31 0 50 15 50 40 0 14-7 25-19 32 16 6 27 19 27 38 0 29-21 46-58 46h-48Zm31 25v36h17c13 0 21-7 21-19 0-11-8-17-21-17Zm0 61v44h19c15 0 23-8 23-23 0-14-8-21-25-21Z" fill="#d7c39b"/>
+  <text x="320" y="194" fill="#171715" font-family="Georgia, serif" font-size="72" font-weight="700" letter-spacing="4">SOFTBAZZAR</text>
+  <rect x="325" y="224" width="96" height="3" fill="#a98547"/>
+  <text x="92" y="368" fill="#7a3040" font-family="Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="6">PRESENTATIONS · REPORTS · NOTES · RESUMES</text>
+  <text x="92" y="444" fill="#171715" font-family="Georgia, serif" font-size="58" font-weight="600">College work,</text>
+  <text x="92" y="510" fill="#7a3040" font-family="Georgia, serif" font-size="58" font-weight="600">professionally presented.</text>
+  <text x="906" y="520" fill="#777066" font-family="Arial, sans-serif" font-size="15" text-anchor="end" letter-spacing="2">CLEAR PRICING · EDITABLE FILES · DIRECT ORDERING</text>
+</svg>
