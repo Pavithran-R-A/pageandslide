@@ -1,0 +1,5 @@
+## Vercel alias and rename audit
+
+The existing Vercel MCP tool inventory exposes read-only project/deployment inspection and deployment protection operations, but no project-rename, project-domain, or alias-assignment mutation. The official Vercel documentation search result identifies `vercel project rename <name> <new-name>` for renaming an existing project and documents `alias` in `vercel.json` as a deployment-alias mechanism. Source: https://vercel.com/docs/cli/project and https://vercel.com/docs/project-configuration/vercel-json.
+
+Current project inspection confirms the existing project is named `softbazzar`, project ID `prj_q3cMbX3jlTvZv92oXOCaH3HdtjqI`, and its attached domains are `softbazzar.vercel.app`, `softbazzar-pavithrans-projects-cae184b1.vercel.app`, and `softbazzar-git-main-pavithrans-projects-cae184b1.vercel.app`. The requested `https://pageandslide.vercel.app` check did not return an attachable share URL, so it is not claimed as attached. The sandbox has no Vercel CLI binary or pre-authorized Vercel CLI credential; no duplicate project or production mutation was attempted.

@@ -13,9 +13,9 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   page.on("response", (response) => { if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`); });
 
   await page.goto(hostedUrl!, { waitUntil: "domcontentloaded" });
-  await expect(page).toHaveTitle("Page & Slide | College work, professionally presented");
+  await expect(page).toHaveTitle("Page & Slide | PPTs, Reports, Notes & Resumes for Students");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-  await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /College work/i })).toBeVisible();
   await expect(page.getByText("PPTs · Reports · Notes · Resumes", { exact: true })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
   await expect(page.getByRole("button", { name: /Open cart, 0 items/i })).toBeVisible();
@@ -67,7 +67,7 @@ test("Vercel preview passes responsive, cart, checkout, accessibility, and safet
   for (const width of requestedWidths) {
     await page.setViewportSize({ width, height: 900 });
     await page.reload({ waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /College work/i })).toBeVisible();
     await expect(page.locator(".catalogue-section")).toBeVisible();
     await expect(page.locator(".process-section")).toBeVisible();
     await expect(page.locator(".faq-section")).toBeVisible();

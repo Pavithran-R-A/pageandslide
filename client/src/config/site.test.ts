@@ -6,8 +6,8 @@ describe("production search configuration", () => {
     expect(SITE_ORIGIN).toBe("https://pageandslide.vercel.app");
     expect(SITE_URL).toBe("https://pageandslide.vercel.app/");
     expect(SITE_METADATA.canonicalUrl).toBe(SITE_URL);
-    expect(SITE_METADATA.title).toBe("Page & Slide | College work, professionally presented");
-    expect(SITE_METADATA.description).toContain("college students");
+    expect(SITE_METADATA.title).toBe("Page & Slide | PPTs, Reports, Notes & Resumes for Students");
+    expect(SITE_METADATA.description).toContain("students");
     expect(SITE_METADATA.title).not.toMatch(/MCC|Madras Christian College/i);
     expect(SITE_METADATA.socialImageUrl).toBe("https://pageandslide.vercel.app/page-and-slide-social.png");
     expect(ORGANIZATION_DETAILS.telephone).toBe("+91 9025857269");

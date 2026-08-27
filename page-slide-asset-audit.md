@@ -15,3 +15,9 @@ Fresh desktop and 390px mobile captures show the Page & Slide wordmark/mark, exa
 ## Detail and legal visual inspection
 
 The refreshed presentation-detail capture shows Page & Slide branding in the shared header/footer, the approved editorial typography, catalogue pricing and add-to-cart controls. The refreshed Terms capture shows Page & Slide references throughout the active legal copy and the existing honest email blocker note, with no visible SoftBazzar residue.
+
+## Final polish visual QA
+
+The refreshed desktop capture shows the headline reduced to the requested two-line hierarchy, with “College work,” followed by “beautifully presented.” and the supporting explanation visible before the pricing anchors. The redundant floating hero mark is gone. The refreshed 390px capture retains the same immediate comprehension, wraps the supporting copy safely, keeps the new page-inspired mark and ampersand wordmark readable, and preserves the existing catalogue, pricing and mobile layout without visible overflow.
+
+The corrected mark was re-inspected after the first P&S geometry read too close to a B-like silhouette. The current mark reads as an integrated burgundy P with a distinct champagne S, framed by a folded page corner and gold presentation baseline, with no black-square container. The 512×512 avatar preserves the same geometry and palette with clear social-scale legibility.

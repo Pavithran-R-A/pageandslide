@@ -3,6 +3,7 @@
   "framework": "vite",
   "buildCommand": "pnpm run seo:files && pnpm exec vite build && pnpm exec tsx scripts/prerender-public-routes.ts",
   "outputDirectory": "dist/public",
+  "alias": ["pageandslide.vercel.app"],
   "rewrites": [
     { "source": "/presentations", "destination": "/presentations/index.html" },
     { "source": "/assignment-support", "destination": "/assignment-support/index.html" },

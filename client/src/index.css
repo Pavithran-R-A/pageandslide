@@ -83,7 +83,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .wordmark img { width: 28px; height: 28px; }
-.wordmark-rule { width: 13px; height: 1px; display: inline-block; margin: 0 3px 4px; background: var(--gold); vertical-align: middle; }
+.wordmark-ampersand { display: inline-block; margin: 0 2px; color: var(--wine); font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.45em; font-style: italic; font-weight: 600; letter-spacing: 0; line-height: .7; transform: translateY(1px) rotate(-8deg); }
 
 .site-nav { display: flex; gap: 30px; font-size: 12px; letter-spacing: .04em; }
 .site-nav a, .text-action, .footer-top nav a, .footer-top nav button {
@@ -136,10 +136,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* Hero Section */
 .hero-section {
   position: relative;
-  min-height: 640px;
+  min-height: 580px;
   max-width: 1440px;
   margin: 0 auto;
-  padding: clamp(80px, 10vw, 144px) 4.5vw 90px;
+  padding: clamp(72px, 8.5vw, 118px) 4.5vw 78px;
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
@@ -175,10 +175,10 @@ h1, h2 {
   line-height: .92;
 }
 
-h1 { max-width: 720px; margin-bottom: 28px; font-size: clamp(3.65rem, 8vw, 7.25rem); }
+h1 { max-width: 680px; margin-bottom: 24px; font-size: clamp(3.2rem, 6.6vw, 6rem); }
 h1 em, h2 em { color: var(--wine); font-weight: 500; }
 
-.hero-copy { max-width: 535px; margin-bottom: 32px; color: var(--soft-charcoal); font-size: clamp(1rem, 1.3vw, 1.13rem); }
+.hero-copy { max-width: 600px; margin-bottom: 30px; color: var(--soft-charcoal); font-size: clamp(1rem, 1.2vw, 1.1rem); }
 
 .price-anchors {
   display: flex;
@@ -219,17 +219,6 @@ h1 em, h2 em { color: var(--wine); font-weight: 500; }
 
 .text-action { color: var(--charcoal); font-size: 13px; font-weight: 600; }
 
-.hero-folio-mark {
-  position: absolute;
-  top: 38px;
-  right: 4.5vw;
-  display: grid;
-  gap: 8px;
-  text-align: right;
-}
-
-.hero-folio-mark img { width: 48px; height: 48px; justify-self: end; }
-.hero-folio-mark span { font-size: 9px; letter-spacing: .12em; color: var(--gold); line-height: 1.2; }
 
 /* Trust Strip */
 .trust-strip {
@@ -606,11 +595,10 @@ h1 em, h2 em { color: var(--wine); font-weight: 500; }
 @media (max-width: 767px) {
   .topbar-inner { min-height: 64px; padding: 0 17px; grid-template-columns: 1fr auto; }
   .site-nav { display: none; }
-  .hero-section { min-height: 560px; padding: 78px 24px 92px; }
+  .hero-section { min-height: 510px; padding: 68px 24px 76px; }
   .hero-section::before { left: 24px; }
   .hero-content { padding-left: 20px; }
-  h1 { font-size: clamp(3.6rem, 17vw, 5.25rem); }
-  .hero-folio-mark { top: 29px; right: 22px; }
+  h1 { font-size: clamp(3.35rem, 15.5vw, 4.8rem); }
   .hero-actions { gap: 22px; }
   .price-anchors { gap: 12px 24px; }
 

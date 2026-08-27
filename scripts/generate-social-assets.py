@@ -23,18 +23,22 @@ def font(name: str, size: int) -> ImageFont.FreeTypeFont:
 
 
 def monogram(draw: ImageDraw.ImageDraw, x: int, y: int, size: int) -> None:
-    draw.rectangle((x, y, x + size, y + size), fill=CHARCOAL)
     scale = size / 168
-    # Custom geometric S: a single burgundy ribbon behind the P, not a font glyph.
+    page = [(x, y), (x + int(118 * scale), y), (x + size, y + int(50 * scale)), (x + size, y + size), (x, y + size)]
+    draw.polygon(page, fill=IVORY)
+    draw.line(page + [page[0]], fill=LINE, width=max(2, int(2 * scale)))
+    draw.line((x + int(118 * scale), y, x + int(118 * scale), y + int(50 * scale), x + size, y + int(50 * scale)), fill="#a98547", width=max(2, int(3 * scale)))
+    # Custom geometric S: a single champagne ribbon behind the P, not a font glyph.
     s_points = [(126, 34), (109, 26), (84, 26), (63, 34), (54, 47), (59, 59), (78, 67), (103, 74), (113, 84), (109, 99), (95, 111), (76, 115), (55, 109), (39, 98)]
-    draw.line([(x + px * scale, y + py * scale) for px, py in s_points], fill=BURGUNDY, width=max(5, int(12 * scale)), joint="curve")
-    # Custom champagne P: a strong stem and open bowl that locks with the S.
+    draw.line([(x + px * scale, y + py * scale) for px, py in s_points], fill=GOLD, width=max(5, int(12 * scale)), joint="curve")
+    # Custom burgundy P: a strong stem and open bowl that locks with the S.
     stem_x = x + int(43 * scale)
     stem_width = max(6, int(15 * scale))
-    draw.rectangle((stem_x, y + int(27 * scale), stem_x + stem_width, y + int(139 * scale)), fill=GOLD)
+    draw.rectangle((stem_x, y + int(27 * scale), stem_x + stem_width, y + int(139 * scale)), fill=BURGUNDY)
     bowl = (x + int(48 * scale), y + int(27 * scale), x + int(126 * scale), y + int(96 * scale))
-    draw.arc(bowl, start=270, end=90, fill=GOLD, width=max(5, int(15 * scale)))
-    draw.line((x + int(61 * scale), y + int(62 * scale), x + int(85 * scale), y + int(62 * scale)), fill=GOLD, width=max(5, int(15 * scale)))
+    draw.arc(bowl, start=270, end=90, fill=BURGUNDY, width=max(5, int(15 * scale)))
+    draw.line((x + int(61 * scale), y + int(62 * scale), x + int(85 * scale), y + int(62 * scale)), fill=BURGUNDY, width=max(5, int(15 * scale)))
+    draw.line((x + int(36 * scale), y + int(148 * scale), x + int(132 * scale), y + int(148 * scale)), fill="#a98547", width=max(3, int(3 * scale)))
 
 
 def make_social() -> None:

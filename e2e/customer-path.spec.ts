@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("customer can add a service, review it, and receive the configured WhatsApp order link", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /College work/i })).toBeVisible();
   await page.getByRole("button", { name: "Add" }).first().click();
   await page.getByRole("button", { name: /Open cart, 1 items/i }).click();
   await expect(page.getByRole("dialog", { name: /Order/i })).toBeVisible();

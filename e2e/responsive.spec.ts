@@ -8,7 +8,7 @@ test("the editorial catalogue has no horizontal overflow at all required breakpo
   for (const [width, height] of viewports) {
     await page.setViewportSize({ width, height });
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: /Your college work/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /College work/i })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   }
 });

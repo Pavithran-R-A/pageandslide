@@ -16,8 +16,8 @@ export function toSiteUrl(path = "/"): string {
 }
 
 export const SITE_METADATA = {
-  title: "Page & Slide | College work, professionally presented",
-  description: "Presentation design, assignment support, project reports, notes and resumes for college students. Clear INR pricing, editable files and direct WhatsApp or Telegram ordering.",
+  title: "Page & Slide | PPTs, Reports, Notes & Resumes for Students",
+  description: "PPTs, reports, notes and resumes for students. Choose what you need, see the price upfront, and order directly through WhatsApp or Telegram. Editable files included.",
   canonicalUrl: SITE_URL,
   socialImageUrl: toSiteUrl("/page-and-slide-social.png"),
   socialImageWidth: 1200,
@@ -34,7 +34,7 @@ export type PublicRoute = Readonly<{
 }>;
 
 const ROUTE_DEFINITIONS: readonly PublicRoute[] = [
-  { path: "/", title: SITE_METADATA.title, description: SITE_METADATA.description, h1: "Your college work, professionally presented.", summary: "Choose a presentation, report, notes, resume or assignment-support service, review the price upfront, and send your brief through WhatsApp or Telegram.", indexable: true },
+  { path: "/", title: SITE_METADATA.title, description: SITE_METADATA.description, h1: "College work, beautifully presented.", summary: "PPTs, reports, notes and resumes — choose what you need, see the price upfront, and order directly through WhatsApp or Telegram. Editable files included.", indexable: true },
   { path: "/presentations", title: "Presentation Design for College Students | Page & Slide", description: "Editable presentation design for college students, with clear INR pricing, considered slide layouts and direct WhatsApp or Telegram ordering.", h1: "Presentations that make the point clearly.", summary: "Choose an editable presentation package by slide count, from up to 5 slides at ₹99.", indexable: true },
   { path: "/assignment-support", title: "Assignment Support and Formatting | Page & Slide", description: "Assignment formatting, editing, organisation and presentation support for college students, with transparent INR pricing and editable output.", h1: "Assignment support, with structure.", summary: "Get help with formatting, editing, organisation and presentation polish, with packages from ₹79.", indexable: true },
   { path: "/project-reports", title: "Project Report Formatting for College Students | Page & Slide", description: "Project report formatting and presentation polish for college students, with editable files, transparent INR pricing and direct ordering.", h1: "Project reports with a considered finish.", summary: "Choose an editable project-report package by page count, from up to 20 pages at ₹199.", indexable: true },

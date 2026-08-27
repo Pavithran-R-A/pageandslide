@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect width="128" height="128" fill="#171715"/>
-  <path d="M89 34c-6-5-14-8-24-8-16 0-27 8-27 19 0 11 8 16 25 21 12 3 16 6 16 11 0 7-6 10-15 10-9 0-16-3-23-8l-7 11c8 7 18 10 30 10 17 0 28-8 28-22 0-12-8-18-25-23-12-3-16-6-16-10 0-5 5-8 13-8 8 0 14 2 20 6Z" fill="#7a3040"/>
-  <path d="M37 25h25c17 0 28 9 28 23 0 14-11 23-28 23h-9v32H37Zm16 14v21h8c8 0 14-4 14-11s-6-10-14-10Z" fill="#d7c39b"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Page &amp; Slide P&amp;S favicon</title>
+  <desc id="desc">Compact burgundy P and champagne S page monogram.</desc>
+  <path d="M14 12h70l30 30v74H14Z" fill="#fbf8f1" stroke="#d8d0c2" stroke-width="3"/>
+  <path d="M84 12v30h30" fill="none" stroke="#a98547" stroke-width="4"/>
+  <path d="M27 32h27c16 0 26 8 26 21 0 14-10 23-26 23H43v27H27Zm16 14v17h10c7 0 11-4 11-10 0-5-4-7-11-7Z" fill="#7a3040"/>
+  <path d="M112 42c-5-4-11-6-18-6-8 0-13 3-13 8 0 4 4 6 13 9 13 4 19 9 19 18 0 13-10 22-25 22-8 0-15-2-21-6l7-12c4 3 9 5 14 5 6 0 10-3 10-7 0-4-3-6-12-8-14-4-21-9-21-20 0-13 10-22 26-22 9 0 17 3 23 7Z" fill="#d7c39b"/>
 </svg>
