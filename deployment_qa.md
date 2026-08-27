@@ -1,6 +1,6 @@
 # SoftBazzar — Authoritative Final Preview QA Record
 
-> **Authoritative status:** This document supersedes all earlier deployment summaries, including the obsolete `a2c9e9…` checkpoint. The current release candidate is the final Git-backed Vercel Preview described below; no production deployment, custom domain, or `main` merge has occurred.
+> **Authoritative status:** This document supersedes all earlier deployment summaries, including the obsolete `a2c9e9…` checkpoint. **This release candidate has not been promoted to production, merged into main, or attached to a final custom domain.** Historical production deployments from `main` are preserved and outside this release-candidate record.
 
 ## Current release candidate
 
@@ -11,7 +11,7 @@
 | Final release-preparation commits | `197dd2a57b97b6f605a39367f74de85a0a43c435`, `2602e2f71892eea537fcf414e4728531b6e4eb7f` |
 | Current Vercel deployment | `dpl_HeoDbFgJbfdfEQ8JC9AgZ9u4pGXC` — `READY` |
 | Preview URL | `https://softbazzar-gmjv9pvhl-pavithrans-projects-cae184b1.vercel.app` |
-| Deployment mode | Protected Git-backed Preview; `target: null`; no custom domain; no production promotion; no `main` merge |
+| Deployment mode | Protected Git-backed Preview; `target: null`. This release candidate has not been promoted to production, merged into `main`, or attached to a final custom domain. |
 
 ## Repaired production gaps
 
