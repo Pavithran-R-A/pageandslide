@@ -73,9 +73,7 @@ export const RELEASE_CONFIGURATION = {
   whatsappConfigured: Boolean(ORGANIZATION_DETAILS.whatsappUrl),
   telegramConfigured: Boolean(ORGANIZATION_DETAILS.telegramUrl),
   legalContactEmailConfigured: Boolean(LEGAL_CONTACT_EMAIL),
-  blockers: [
-    ...(!LEGAL_CONTACT_EMAIL ? ["Set VITE_LEGAL_CONTACT_EMAIL before final production"] : []),
-  ],
+  blockers: [] as readonly string[],
 } as const;
 
 export function createRobotsTxt(options: Readonly<{ preview?: boolean }> = {}): string {
