@@ -11,7 +11,8 @@ describe("production search configuration", () => {
     expect(SITE_METADATA.title).not.toMatch(/MCC|Madras Christian College/i);
     expect(SITE_METADATA.socialImageUrl).toBe("https://pageandslide.vercel.app/page-and-slide-social.png");
     expect(ORGANIZATION_DETAILS.telephone).toBe("+91 9025857269");
-    expect(ORGANIZATION_DETAILS.telegramUrl).toBe("https://t.me/softbazzar");
+    expect(ORGANIZATION_DETAILS.whatsappUrl).toBe("https://wa.me/919025857269");
+    expect(ORGANIZATION_DETAILS.telegramUrl).toBeNull();
   });
 
   it("generates production crawl files on the same canonical origin and explicitly permits OAI-SearchBot", () => {
@@ -24,12 +25,12 @@ describe("production search configuration", () => {
     expect(`${robots}\n${sitemap}`).not.toMatch(/softbazzar\.example|MCC|Madras Christian College/i);
   });
 
-  it("keeps preview crawl instructions closed and marks missing legal email explicitly", () => {
+  it("keeps preview crawl instructions closed and marks missing optional configuration explicitly", () => {
     expect(createRobotsTxt({ preview: true })).toContain("User-agent: *\nDisallow: /");
     expect(createRobotsTxt({ preview: true })).toContain("User-agent: OAI-SearchBot\nDisallow: /");
     expect(getRouteMetadata("/resumes").title).toContain("Resume");
     expect(RELEASE_CONFIGURATION.whatsappConfigured).toBe(true);
-    expect(RELEASE_CONFIGURATION.telegramConfigured).toBe(true);
+    expect(RELEASE_CONFIGURATION.telegramConfigured).toBe(false);
     expect(RELEASE_CONFIGURATION.legalContactEmailConfigured).toBe(false);
     expect(RELEASE_CONFIGURATION.blockers).toEqual(["Set VITE_LEGAL_CONTACT_EMAIL before final production"]);
   });
