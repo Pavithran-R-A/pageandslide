@@ -25,13 +25,13 @@ describe("production search configuration", () => {
     expect(`${robots}\n${sitemap}`).not.toMatch(/softbazzar\.example|MCC|Madras Christian College/i);
   });
 
-  it("keeps preview crawl instructions closed and marks missing optional configuration explicitly", () => {
+  it("keeps preview crawl instructions closed while optional contact configuration stays truthful", () => {
     expect(createRobotsTxt({ preview: true })).toContain("User-agent: *\nDisallow: /");
     expect(createRobotsTxt({ preview: true })).toContain("User-agent: OAI-SearchBot\nDisallow: /");
     expect(getRouteMetadata("/resumes").title).toContain("Resume");
     expect(RELEASE_CONFIGURATION.whatsappConfigured).toBe(true);
     expect(RELEASE_CONFIGURATION.telegramConfigured).toBe(false);
     expect(RELEASE_CONFIGURATION.legalContactEmailConfigured).toBe(false);
-    expect(RELEASE_CONFIGURATION.blockers).toEqual(["Set VITE_LEGAL_CONTACT_EMAIL before final production"]);
+    expect(RELEASE_CONFIGURATION.blockers).toEqual([]);
   });
 });
