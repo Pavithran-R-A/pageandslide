@@ -3,10 +3,10 @@ import { createTelegramContactUrl, createWhatsAppContactUrl, isConfiguredTelegra
 
 describe("Telegram public username validation", () => {
   it("accepts 5–32-character names that begin with a letter and use only permitted characters", () => {
-    expect(isConfiguredTelegramUsername("softbazzar_test")).toBe(true);
+    expect(isConfiguredTelegramUsername("pageandslide_test")).toBe(true);
     expect(isConfiguredTelegramUsername("A1234")).toBe(true);
     expect(isConfiguredTelegramUsername("a".repeat(32))).toBe(true);
-    expect(createTelegramContactUrl("softbazzar_test")).toBe("https://t.me/softbazzar_test");
+    expect(createTelegramContactUrl("pageandslide_test")).toBe("https://t.me/pageandslide_test");
   });
 
   it("rejects placeholders, numeric and underscore prefixes, invalid characters, and invalid lengths", () => {
@@ -18,10 +18,10 @@ describe("Telegram public username validation", () => {
     expect(isConfiguredTelegramUsername("student-name")).toBe(false);
   });
 
-  it("publishes only the configured Page & Slide contact destinations", () => {
+  it("keeps Page & Slide independent from the SoftBazzar contact identity", () => {
     expect(WHATSAPP_NUMBER).toBe("919025857269");
-    expect(TELEGRAM_USERNAME).toBe("softbazzar");
+    expect(TELEGRAM_USERNAME).toBe("");
     expect(createWhatsAppContactUrl(WHATSAPP_NUMBER)).toBe("https://wa.me/919025857269");
-    expect(createTelegramContactUrl(TELEGRAM_USERNAME)).toBe("https://t.me/softbazzar");
+    expect(createTelegramContactUrl(TELEGRAM_USERNAME)).toBeNull();
   });
 });
