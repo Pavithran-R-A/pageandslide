@@ -1,58 +1,33 @@
-# Page & Slide — Authoritative Preview QA and Search-Readiness Record
+# Page & Slide — Production Hardening QA Record
 
-> **Status:** This rebrand release candidate remains a protected Preview only. It has not been promoted to production, merged into `main`, attached to a custom domain or submitted for search indexing.
+> **Status:** Page & Slide is maintained as its own repository and deployment. This record describes the `hardening/20260829` release candidate before integration into `main`.
 
-## Current release candidate
+## Release candidate
 
 | Item | Verified value |
 |---|---|
-| Repository | `Pavithran-R-A/softbazzar` |
-| Branch | `vercel-preview/softbazzar-qa-20260827` |
-| Starting HEAD | `9fde075238894d37a7e185b5597659060f2ef176` |
-| Final rebrand HEAD | `bd2e5ac0302074637d4e8d2155e6601a61c6ddeb` |
-| Existing Vercel project | `softbazzar` — `prj_q3cMbX3jlTvZv92oXOCaH3HdtjqI` |
-| Final Preview deployment | `dpl_w83D8SpqCuf8BtTcEQ2mRFRco21C` — `READY` |
-| Final Preview URL | `https://softbazzar-1uniefjjm-pavithrans-projects-cae184b1.vercel.app` |
-| Deployment mode | Protected Git-backed Preview; `target: null`. No duplicate project was created and `main` was not modified. |
+| Repository | `Pavithran-R-A/pageandslide` |
+| Branch | `hardening/20260829` |
+| Canonical production origin | `https://pageandslide.vercel.app` |
+| Default customer contact | WhatsApp `919025857269` |
+| Telegram | Optional; no default Page & Slide username is published |
+| Order references | `PS-YYYYMMDD-XXXX` |
+| Cart storage | `pageandslide_cart_v1` |
 
-## Page & Slide product and brand pass
+## Separation and customer-flow hardening
 
-Page & Slide now presents the approved broad college-student storefront with the brand display `PAGE & SLIDE`, descriptor `PPTs · Reports · Notes · Resumes`, and preserved hero `Your college work, professionally presented.` The luxury warm-ivory, charcoal, burgundy and champagne-gold system, service routes, legal routes and editorial layout remain intact.
+Page & Slide no longer borrows SoftBazzar as its customer-facing Telegram identity. The contact page, footer actions, organization metadata and checkout flows derive destinations from Page & Slide contact configuration. WhatsApp remains available by default; Telegram is rendered only when a valid `VITE_TELEGRAM_USERNAME` is deliberately configured.
 
-The old SB geometry has been replaced by an original geometric P&S / PS monogram in the square mark, scalable wordmark, favicon, social avatar and 1200×630 Open Graph artwork. The shared header and footer use the Page & Slide display, and the order message now opens with `Hi Page & Slide,`.
+The cart persists only validated service/tier identifiers and quantities. Order details are collected at review time, and the application uses Page & Slide-specific order references. Unknown routes are not rewritten to the homepage: the Vercel configuration preserves a genuine 404 response and applies baseline browser security headers.
 
-The shared storefront layout preserves the verified cart, checkout, WhatsApp and Telegram actions. Configured destinations remain `https://wa.me/919025857269` and `https://t.me/softbazzar`; the Telegram username is intentionally preserved as a compatibility destination. The cart key `softbazzar_cart_v1` is intentionally preserved so existing saved carts continue to resume. No pricing, delivery surcharge, deadline, quantity or accessibility behavior was changed.
+A support/privacy email is optional. If `VITE_LEGAL_CONTACT_EMAIL` is unset, the site does not invent or publish an email address; customers are directed to the configured contact channel instead.
 
-## Search, answer-engine and generative-search readiness
+## Search readiness
 
-The canonical production baseline is centralized through `VITE_PUBLIC_SITE_URL` with the default `https://pageandslide.vercel.app`. It drives canonical links, Open Graph and Twitter metadata, the Page & Slide social image URL, generated `robots.txt`, generated `sitemap.xml`, prerendered route HTML and JSON-LD. Preview builds remain closed to crawlers with `noindex, nofollow` behavior.
+Public metadata is centralized on `https://pageandslide.vercel.app`. The build generates canonical metadata, `robots.txt`, `sitemap.xml`, route-aware prerendered HTML and truthful JSON-LD. Public service and policy routes are indexable, while missing routes use Page & Slide's non-indexable 404 metadata. `OAI-SearchBot` is explicitly allowed in production crawl output and disallowed in preview crawl output.
 
-The route-aware JSON-LD publishes a truthful Page & Slide Organization, WebSite, WebPage and catalogue-derived Service/Offer graph. Offers use INR and exclude non-purchasable add-ons. The active customer-facing product contains no MCC, Madras Christian College, local-business, address, review, rating, registration, hours or affiliation claim. `search_launch.md` documents the post-production Search Console, Bing, optional IndexNow and OAI-SearchBot steps.
+## Verification record
 
-## Rebrand residue audit
+GitHub Actions CI run **#14** (`33243463743`) completed successfully on commit `20282018eb0b17a668afd98c1bf6b6153d3e03b3` after the contact-identity separation and release-configuration corrections. The CI workflow runs dependency installation, TypeScript checking, the Vitest suite, the production build and Playwright browser regression tests.
 
-| Audit | Result |
-|---|---|
-| Active visible brand | Page & Slide display and copy confirmed; no split `SOFT` / `BAZZAR` header/footer residue remains. |
-| Active prohibited content | No active `SoftBazzar`, old domain, MCC, Madras Christian College, College Press or stale schema residue in deployable customer content. |
-| Intentional compatibility identifiers | Repository/project name, `/home/ubuntu/softbazzar` working path, `softbazzar_cart_v1`, `softbazzar` Telegram username and lowercase manifest/package project identifiers remain only where changing them would break continuity or the approved destination. Test fixtures retain placeholder strings solely to verify rejection. |
-| Assets | `logo-mark.svg`, `logo-wordmark.svg`, `favicon.svg`, `page-and-slide-social.svg`, `page-and-slide-social.png` and `page-and-slide-social-avatar.png` use the Page & Slide P&S / PS mark and approved palette. |
-
-## Verification results before final push
-
-| Verification | Result |
-|---|---|
-| TypeScript | `pnpm check` passed. |
-| Unit tests | `pnpm test`: **13 test files, 34 tests passed**. |
-| Production build | `pnpm build` passed, including SEO generation, Vite build, prerendering and server bundling. |
-| Local browser tests | `pnpm test:e2e`: **6 passed, 2 skipped**. Skips are protected-host entries requiring `HOSTED_URL`. |
-| Visual QA | Fresh desktop/mobile homepage, service-detail, Terms, Open Graph card and avatar inspections passed with no obvious visual defect. |
-| Hosted Preview QA | `HOSTED_URL=… pnpm exec playwright test -c playwright.hosted.config.ts`: **1 passed** in **21.8 seconds** against the final protected Preview. |
-
-## Sole production blocker
-
-`VITE_LEGAL_CONTACT_EMAIL` is still not supplied. It is the **only explicit user-input blocker**. The Preview is ready for review, but production promotion must wait until that verified support/legal email is configured and the contact/policy copy is rechecked. No production promotion, `main` merge, domain connection or indexing request was performed.
-
-## References
-
-See `release_configuration.md` for the environment gate and `search_launch.md` for the post-production search checklist.
+This document is a pre-integration record. Production deployment and live-origin regression checks are performed only after the verified branch is integrated into `main`.
