@@ -15,8 +15,7 @@ function replaceAttribute(html: string, pattern: RegExp, value: string): string 
 
 function renderInitialContent(pathname: string): string {
   const route = getRouteMetadata(pathname);
-  const routeLabel = pathname === "/" ? "PPTs · Reports · Notes · Resumes" : "PAGE & SLIDE · COLLEGE STUDENT SUPPORT";
-  return `<main class="prerender-content"><p>${escapeHtml(routeLabel)}</p><h1>${escapeHtml(route.h1)}</h1><p>${escapeHtml(route.summary)}</p><p><a href="${escapeHtml(toSiteUrl("/contact"))}">Contact Page & Slide</a></p></main>`;
+  return `<main class="prerender-content"><h1>${escapeHtml(route.h1)}</h1><p>${escapeHtml(route.summary)}</p><p><a href="/#services">Browse services</a></p></main>`;
 }
 
 function renderRouteDocument(template: string, pathname: string): string {
