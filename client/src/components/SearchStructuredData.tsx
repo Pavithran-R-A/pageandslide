@@ -5,7 +5,8 @@ import { useLocation } from "wouter";
 export function createStructuredData(pathname = "/"): Readonly<Record<string, unknown>> {
   const route = getRouteMetadata(pathname);
   const serviceId = pathname === "/resumes" ? "resume" : pathname.replace(/^\//, "");
-  const selectedService = SERVICE_PAGE_DETAILS[route.path] ? findService(serviceId) : null;
+  const detailKey = pathname === "/resumes" ? "resumes" : serviceId;
+  const selectedService = SERVICE_PAGE_DETAILS[detailKey] ? findService(serviceId) : null;
   const catalogueServices = SERVICE_CATEGORIES.map((service) => ({
     "@type": "Service",
     "@id": `${SITE_URL}#service-${service.id}`,

@@ -1,14 +1,15 @@
 import { CartProvider } from "@/contexts/CartContext";
 import { CART_STORAGE_KEY } from "@/lib/cart-storage";
 import { OrderDetailsDialog } from "@/components/OrderDetailsDialog";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { useState } from "react";
 
 function renderDialog(props: Partial<React.ComponentProps<typeof OrderDetailsDialog>> = {}) {
   return render(<CartProvider><OrderDetailsDialog open onOpenChange={() => undefined} {...props} /></CartProvider>);
 }
 
-function completeRequiredDetails(deadline = "2026-08-29T18:00"): void {
+function completeRequiredDetails(deadline = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString().slice(0, 16)): void {
   fireEvent.change(screen.getByLabelText(/^Name/), { target: { value: "Arun" } });
   fireEvent.change(screen.getByLabelText(/^Topic/), { target: { value: "Consumer behaviour" } });
   fireEvent.change(screen.getByLabelText(/^Deadline/), { target: { value: deadline } });
@@ -17,6 +18,18 @@ function completeRequiredDetails(deadline = "2026-08-29T18:00"): void {
 describe("OrderDetailsDialog", () => {
   beforeEach(() => { window.localStorage.clear(); window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify([{ serviceId: "presentations", tierId: "11-to-15", quantity: 1 }])); });
   afterEach(() => vi.useRealTimers());
+
+  it("exposes modal semantics and restores focus through its close callback", async () => {
+    const onCloseFocus = vi.fn();
+    function ControlledDialog() {
+      const [open, setOpen] = useState(true);
+      return <CartProvider><OrderDetailsDialog open={open} onOpenChange={setOpen} onCloseFocus={onCloseFocus} /></CartProvider>;
+    }
+    render(<ControlledDialog />);
+    expect(screen.getByRole("dialog")).toHaveAttribute("aria-modal", "true");
+    fireEvent.click(screen.getByRole("button", { name: /close order details/i }));
+    await waitFor(() => expect(onCloseFocus).toHaveBeenCalledTimes(1));
+  });
 
   it("validates required fields and retains the order locally before exposing the configured WhatsApp link", () => {
     renderDialog();

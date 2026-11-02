@@ -54,6 +54,22 @@ export const SERVICE_PAGE_DETAILS: Readonly<Record<string, ServicePageDetail>> =
   resumes: {
     slug: "/resumes", eyebrow: "RESUME SUPPORT", headline: "A resume that reads like you mean it.", intro: "Shape your supplied experience, education and projects into a focused resume with deliberate hierarchy and an editable file you can keep updating.", included: ["Information hierarchy and concise layout", "Student or ATS-friendly format selection", "Typography and spacing tuned for readability", "Editable resume delivery"], customerProvides: ["Your accurate education, experience and project details", "Target role or application context", "Any existing resume, profile or portfolio information"], output: "An editable resume document. The ATS-friendly option prioritises simple structure and machine-readable text flow.", turnaround: "Timing is confirmed after the brief is reviewed. Priority within 24 hours is +25%; same-day or under 12 hours is +50% when available.", revisions: "Two minor revisions are included. Substantial new experience or a new target role may require a new quote.", useCases: ["First student resume", "Internship applications", "Graduate applications", "ATS-friendly application format"], faqs: [{ question: "How much does a resume cost?", answer: "Student Resume packages start at ₹199; ATS-friendly Resume packages start at ₹299." }, { question: "Do you invent experience?", answer: "No. You remain responsible for supplying accurate information and credentials." }],
   },
+  combinations: {
+    slug: "/combinations",
+    eyebrow: "COMBINATION PRICING",
+    headline: "Presentation and report bundles.",
+    intro: "Choose a paired presentation-and-report option for connected submissions, with bundle pricing shown before you enquire.",
+    included: ["15-slide presentation with a 20-page report", "20-slide presentation with a 40-page report", "Editable presentation and report files", "Formatting and layout for material you provide"],
+    customerProvides: ["Your topic, brief and source material", "Required format, template or submission rules", "Accurate names, dates, figures and citations"],
+    output: "Editable files for the selected presentation-and-report bundle.",
+    turnaround: "Timing is confirmed after reviewing the brief and source files.",
+    revisions: "Revision scope is confirmed with the brief before work begins.",
+    useCases: ["A presentation and report for one project", "A seminar deck with its supporting report", "Connected materials with a consistent layout"],
+    faqs: [
+      { question: "Which bundle options are available?", answer: "The catalogue lists a 15-slide presentation with a 20-page report, and a 20-slide presentation with a 40-page report." },
+      { question: "Does this service complete assessed coursework?", answer: "No. You provide and remain responsible for the academic content and submission." },
+    ],
+  },
 };
 
 export function findService(serviceId: string): ServiceCategory | null { return SERVICE_CATEGORIES.find((entry) => entry.id === serviceId) ?? null; }

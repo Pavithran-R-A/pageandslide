@@ -30,6 +30,6 @@ export function StorefrontLayout({ children }: PropsWithChildren) {
     <p className="sr-only" aria-live="polite">{cartMessage}</p>
     {itemCount > 0 && <button type="button" className="mobile-cart-bar" onClick={openCart}><span><ShoppingBag size={17} aria-hidden="true" /> {itemCount} {itemCount === 1 ? "item" : "items"}</span><strong>{formatRupees(subtotal)}</strong><b>View order <span aria-hidden="true">→</span></b></button>}
     <CartDialog open={cartOpen} onOpenChange={setCartOpen} onCloseFocus={restoreCartFocus} onReview={() => { setCartOpen(false); setDetailsOpen(true); }} />
-    <OrderDetailsDialog open={detailsOpen} onOpenChange={setDetailsOpen} />
+    <OrderDetailsDialog open={detailsOpen} onOpenChange={setDetailsOpen} onCloseFocus={restoreCartFocus} />
   </div>;
 }
