@@ -150,7 +150,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* Hero Section */
 .hero-section {
   position: relative;
-  min-height: 580px;
+  min-height: calc(100svh - 72px);
   max-width: 1440px;
   margin: 0 auto;
   padding: clamp(72px, 8.5vw, 120px) 4.5vw 80px;
@@ -232,19 +232,20 @@ button:disabled, .primary-action:disabled { cursor: not-allowed; opacity: .58; }
   max-width: 1440px;
   margin: 0 auto;
   border-bottom: 1px solid var(--line);
-  min-height: 180px;
+  min-height: 300px;
+  align-items: center;
 }
 
-.trust-strip div { padding: 24px 4.5vw; display: grid; gap: 4px; border-right: 1px solid var(--line); }
+.trust-strip div { min-height: 160px; padding: 32px 3vw; display: grid; align-content: center; gap: 12px; border-right: 1px solid var(--line); }
 .trust-strip div:last-child { border-right: 0; }
-.trust-strip strong { font-size: 12px; letter-spacing: 0; }
-.trust-strip span { color: var(--taupe); font-size: 11px; }
+.trust-strip strong { font-family: var(--font-display); font-size: 28px; font-weight: 600; letter-spacing: 0; line-height: 1; }
+.trust-strip span { max-width: 24ch; color: var(--taupe); font-size: 14px; }
 
 /* Catalogue Section */
 .catalogue-section, .process-section, .faq-section, .why-section {
   max-width: 1440px;
   margin: 0 auto;
-  padding: clamp(76px, 10vw, 132px) 4.5vw;
+  padding: clamp(144px, 11vw, 168px) 4.5vw;
   border-bottom: 1px solid var(--line);
 }
 
@@ -356,7 +357,7 @@ button:disabled, .primary-action:disabled { cursor: not-allowed; opacity: .58; }
   max-width: 1440px;
   min-height: 490px;
   margin: 0 auto;
-  padding: clamp(76px, 10vw, 132px) 4.5vw;
+  padding: clamp(144px, 11vw, 168px) 4.5vw;
   background: var(--soft-charcoal);
   color: var(--paper);
 }
@@ -608,8 +609,10 @@ button:disabled, .primary-action:disabled { cursor: not-allowed; opacity: .58; }
   .hero-actions { gap: 24px; }
   .price-anchors { gap: 12px 24px; }
 
-  .trust-strip { grid-template-columns: 1fr; }
+  .trust-strip { grid-template-columns: 1fr; min-height: 0; }
   .trust-strip div { min-height: 70px; padding: 16px 24px; grid-template-columns: 125px 1fr; align-items: center; border-right: 0; border-bottom: 1px solid var(--line); }
+  .trust-strip strong { font-family: var(--font-body); font-size: 12px; font-weight: 600; line-height: 1.4; }
+  .trust-strip span { max-width: none; font-size: 11px; }
   .trust-strip div:last-child { border-bottom: 0; }
 
   .catalogue-section, .process-section, .faq-section, .why-section { padding: 72px 24px; }

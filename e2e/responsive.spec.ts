@@ -13,6 +13,28 @@ test("the editorial catalogue has no horizontal overflow at all required breakpo
   }
 });
 
+test("the desktop hero fills the fold with measured section spacing", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+
+  const geometry = await page.evaluate(() => {
+    const hero = document.querySelector(".hero-section");
+    const trust = document.querySelector(".trust-strip");
+    const catalogueHeading = document.querySelector(".catalogue-section h2");
+    if (!hero || !trust || !catalogueHeading) return null;
+    return {
+      heroBottom: hero.getBoundingClientRect().bottom,
+      trustHeight: trust.getBoundingClientRect().height,
+      sectionGap: catalogueHeading.getBoundingClientRect().top - trust.getBoundingClientRect().bottom,
+    };
+  });
+
+  expect(geometry).not.toBeNull();
+  expect(geometry!.heroBottom).toBeGreaterThanOrEqual(899);
+  expect(geometry!.trustHeight).toBeGreaterThanOrEqual(300);
+  expect(geometry!.sectionGap).toBeGreaterThanOrEqual(120);
+});
+
 test("the fixed mobile cart bar is visible and leaves document space after an item is added", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
