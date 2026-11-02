@@ -70,4 +70,10 @@ describe("final release public content", () => {
     expect(headers.get("referrer-policy")).toBeTruthy();
     expect(headers.get("content-security-policy")).toContain("default-src 'self'");
   });
+
+  it("does not use CSP-blocked inline handlers for font loading", () => {
+    const html = readFileSync("client/index.html", "utf8");
+    expect(html).not.toMatch(/\bonload\s*=/i);
+    expect(html).not.toMatch(/media=["']print["']/i);
+  });
 });
