@@ -34,7 +34,6 @@ export function CartDialog({ open, onOpenChange, onCloseFocus, onReview }: CartD
       <DialogContent showCloseButton={false} className="cart-dialog left-auto right-0 top-0 h-dvh w-full max-w-none translate-x-0 translate-y-0 rounded-none border-y-0 border-r-0 p-0 sm:max-w-[430px]">
         <div className="cart-dialog__header">
           <div>
-            <p className="eyebrow">YOUR SELECTION</p>
             <DialogTitle className="cart-dialog__title">Order</DialogTitle>
             <DialogDescription className="cart-dialog__description">Review quantities before adding your details.</DialogDescription>
           </div>
@@ -48,7 +47,7 @@ export function CartDialog({ open, onOpenChange, onCloseFocus, onReview }: CartD
             <h3>Your order is empty.</h3>
             <p>Select a service to begin.</p>
             <button type="button" className="text-action" onClick={() => { handleOpenChange(false); document.getElementById("services")?.scrollIntoView({ behavior: "smooth" }); }}>
-              Browse services <span aria-hidden="true">→</span>
+              Browse services
             </button>
           </div>
         ) : (
@@ -75,7 +74,7 @@ export function CartDialog({ open, onOpenChange, onCloseFocus, onReview }: CartD
             </div>
             <div className="cart-dialog__footer">
               <div className="cart-subtotal"><span>Subtotal</span><strong>{formatRupees(subtotal)}</strong></div>
-              <button type="button" className="primary-action primary-action--wide" onClick={onReview}>Review order <span aria-hidden="true">→</span></button>
+              <button type="button" className="primary-action primary-action--wide" onClick={onReview}>Review order</button>
             </div>
           </>
         )}

@@ -12,5 +12,6 @@ const FAQs = [
 ] as const;
 
 export function FaqSection() {
-  return <section className="faq-section" id="faq" aria-labelledby="faq-title"><div className="faq-heading"><p className="eyebrow">FAQ</p><h2 id="faq-title">Clear answers, before you begin.</h2><p>Short answers to the questions students usually ask before sending a brief.</p></div><div className="faq-list">{FAQs.map(([question, answer], index) => <details key={question}><summary><span>{String(index + 1).padStart(2, "0")}</span>{question}<i aria-hidden="true">+</i></summary><p>{answer}</p></details>)}</div></section>;
+  // Hallmark · dismissed 58 · Answers stay collapsed until requested.
+  return <section className="faq-section" id="faq" aria-labelledby="faq-title"><div className="faq-heading"><h2 id="faq-title">Clear answers, before you begin.</h2><p>Short answers to the questions students usually ask before sending a brief.</p></div><div className="faq-list">{FAQs.map(([question, answer], index) => <details key={question}><summary><span>{String(index + 1).padStart(2, "0")}</span>{question}<i aria-hidden="true">+</i></summary><p>{answer}</p></details>)}</div></section>;
 }

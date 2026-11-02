@@ -9,7 +9,11 @@ test("customer can add a service, review it, and receive the configured WhatsApp
   await page.getByRole("button", { name: /Review order/i }).click();
   await page.getByLabel(/^Name/).fill("Arun");
   await page.getByLabel(/^Topic/).fill("Consumer behaviour presentation");
-  await page.getByLabel(/^Deadline/).fill("2026-08-29T18:00");
+  const future = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+  const localDeadline = new Date(future.getTime() - future.getTimezoneOffset() * 60_000)
+    .toISOString()
+    .slice(0, 16);
+  await page.getByLabel(/^Deadline/).fill(localDeadline);
   await page.getByLabel(/Priority/).check();
   await page.getByRole("button", { name: /Review order/i }).click();
   await expect(page.getByRole("heading", { name: /Ready to send/i })).toBeVisible();
